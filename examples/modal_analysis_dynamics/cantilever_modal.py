@@ -8,7 +8,6 @@ Created on Wed Jun 15 16:57:23 2016
 from dolfin import *
 import numpy as np
 import matplotlib.pyplot as plt
-
 # Geometry : rectangular beam of length L and height H
 L, H = 50., 1.
 
