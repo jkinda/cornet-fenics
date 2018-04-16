@@ -28,7 +28,7 @@ def process():
     # Check that we can find pylint.py for converting foo.py.rst to
     # foo.py
 #    pylit_parser = "/home/bleyerj/Python/pylit/pylit.py"
-    pylit_parser = "/opt/fenics/dolfin/utils/pylit/pylit.py"
+    pylit_parser = "../utils/pylit/pylit.py"
     if not os.path.isfile(pylit_parser):
         raise RuntimeError("Cannot find pylit.py")
 
@@ -69,7 +69,7 @@ def process():
                     if os.path.splitext(os.path.splitext(f)[0])[1] in (".py"):
                         rst_file = os.path.join(demo_dir, f)
                         command = pylit_parser + " " + rst_file
-                        ret = os.system(command)
+                        ret = os.system("python "+command)
                         if not ret == 0:
                             raise RuntimeError("Unable to convert rst file to a .py ({})".format(f))
 

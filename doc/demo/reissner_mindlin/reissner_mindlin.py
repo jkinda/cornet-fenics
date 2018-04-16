@@ -1,25 +1,25 @@
-# 
+#
 # .. _ReissnerMindlin:
-# 
+#
 # ==========================================
 # Reissner-Mindlin plate with Quadrilaterals
 # ==========================================
-# 
-# 
+#
+#
 # This program solves the Reissner-Mindlin plate equations on the unit
 # square with uniform transverse loading and fully clamped boundary conditions.
-# 
+#
 # It uses quadrilateral cells and selective reduced integration (SRI) to
 # remove shear-locking issues in the thin plate limit. Both linear and 
 # quadratic interpolation are considered for the transverse deflection 
 # :math:`w` and rotation :math:`\underline{\theta}`. 
-# 
+#
 # The solution for :math:`w` in this demo will look as follows:
-# 
+#
 # .. image:: clamped_40x40.png
 #    :scale: 40 %
-# 
-# 
+#
+#
 # Material parameters for isotropic linear elastic behavior are first defined::
 
 from fenics import *
@@ -42,7 +42,7 @@ f = Constant(-thick**3)
 
 # The unit square mesh is divided in :math:`N\times N` quadrilaterals::
 
-N = 10
+N = 40
 mesh = UnitSquareMesh.create(N, N, CellType.Type_quadrilateral)
 
 # Continuous interpolation using of degree :math:`d=\texttt{deg}` is chosen for both deflection and rotation::

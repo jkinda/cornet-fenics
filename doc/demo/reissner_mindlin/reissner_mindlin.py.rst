@@ -42,7 +42,7 @@ constant value in the thin plate Love-Kirchhoff limit::
 
 The unit square mesh is divided in :math:`N\times N` quadrilaterals::
 
- N = 10
+ N = 40
  mesh = UnitSquareMesh.create(N, N, CellType.Type_quadrilateral)
 
 Continuous interpolation using of degree :math:`d=\texttt{deg}` is chosen for both deflection and rotation::
