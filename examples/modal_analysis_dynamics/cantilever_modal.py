@@ -7,6 +7,7 @@ Created on Wed Jun 15 16:57:23 2016
 """
 from dolfin import *
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Geometry : rectangular beam of length L and height H
 L, H = 50., 1.
@@ -59,6 +60,7 @@ eigensolver = SLEPcEigenSolver(as_backend_type(K),as_backend_type(M))
 eigensolver.parameters['problem_type'] = 'gen_hermitian'
 eigensolver.parameters["spectrum"] = "smallest real"
 eigensolver.parameters['spectral_transform'] = 'shift-and-invert'
+eigensolver.parameters['spectral_shift'] = 0.
 
 N_eig = 5   # number of eigenvalues
 print "Computing %i first eigenvalues..." % N_eig
@@ -86,6 +88,7 @@ for i in range(N_eig):
     
     # Plot eigenmode
     plot(eigenmode, mode="displacement")
+    plt.show()
 
 interactive()
 
