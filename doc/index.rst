@@ -3,8 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Numerical tours of Computational Continuum Mechanics using FEniCS
-============================================================================
+Welcome to Numerical tours of Computational Mechanics using FEniCS
+==================================================================
+
+In the following you will find documented demos of FEniCS scripts implementing
+various computational mechanics models. The full set of demos can be obtained
+from the COmputational MEchanics Toolbox (COMET) available at
+https://gitlab.enpc.fr/jeremy.bleyer/comet-fenics
 
 Contents:
 
