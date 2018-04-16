@@ -68,7 +68,7 @@ def process():
                     if os.path.splitext(os.path.splitext(f)[0])[1] in (".py"):
                         rst_file = os.path.join(demo_dir, f)
                         command = pylit_parser + " " + rst_file
-                        ret = os.system(command)
+                        ret = os.system("python "+command)
                         if not ret == 0:
                             raise RuntimeError("Unable to convert rst file to a .py ({})".format(f))
 
