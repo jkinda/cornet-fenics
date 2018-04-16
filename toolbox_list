@@ -19,6 +19,7 @@ Elastodynamics
 * modal analysis with SLEPC
 
 Poroelasticity
+Thermoelasticity
 
 Mixing continuum and interfaces
 * elastic interfaces/supports (beam on elastic foundation)
@@ -55,6 +56,10 @@ Contact
 * contact with AL
 
 Von-Karman plates
+
+Phase-field
+
+Cohesive Zone Models
 
 ################
 Beams and Plates
