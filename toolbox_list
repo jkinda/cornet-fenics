@@ -1,0 +1,79 @@
+###############
+Linear problems
+###############
+
+Elastostatics :
+standard continuous galerkin
+* 2D plane stress/strain
+* 3D isotropic, orthotropic
+* axisymmetric
+
+discontinous galerkin
+-> volumetric locking
+
+mixed formulation using Hu-Washizu
+-> volumetric locking
+
+Elastodynamics 
+* time integration Newmark scheme, theta
+* modal analysis with SLEPC
+
+Poroelasticity
+
+Mixing continuum and interfaces
+* elastic interfaces/supports (beam on elastic foundation)
+
+Linear Fracture Mechanics
+* G-theta method to compute J-integral and stress intensity factors
+
+Homogenization in elasticity
+-> treatment of rigid particles with Lagrange multipliers
+
+Linear Buckling 
+
+##################
+Nonlinear problems
+##################
+
+Hyperelasticity :
+-> compressible neo-hookean
+-> incompressible neo-hookean
+
+Viscoelasticity
+* Maxwell model
+* Kelvin-Voigt model
+
+Elasto-plasticity
+* radial return for von Mises/Drucker Prager
+* limit analysis with augmented Lagrangian
+
+Viscoplasticity
+* yield stress fluids
+
+Contact
+* resolution of normal contact with TAO
+* contact with AL
+
+Von-Karman plates
+
+################
+Beams and Plates
+################
+
+Membrane
+
+Axisymmetric shells
+
+Love-Kirchhoff plates with DG
+
+Reissner-Mindlin plates
+
+Higher-order plate models (warping, Bending-Gradient)
+
+#####
+Misc
+#####
+Topology Optimization
+(undocumented example)
+
+Linear Matching Method

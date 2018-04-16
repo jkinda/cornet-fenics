@@ -1,0 +1,5 @@
+=========================
+ 2D elasticity in Fenics
+=========================
+
+:math:`\int_{\Omega}\underline{\underline{\sigma}}:\underline{\underline{\varepsilon}}[v]d\Omega`
