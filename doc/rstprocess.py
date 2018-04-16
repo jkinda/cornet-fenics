@@ -27,8 +27,7 @@ def process():
 
     # Check that we can find pylint.py for converting foo.py.rst to
     # foo.py
-#    pylit_parser = "/home/bleyerj/Python/pylit/pylit.py"
-    pylit_parser = "/opt/fenics/dolfin/utils/pylit/pylit.py"
+    pylit_parser = "../utils/pylit/pylit.py"
     if not os.path.isfile(pylit_parser):
         raise RuntimeError("Cannot find pylit.py")
 
