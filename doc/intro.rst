@@ -2,31 +2,51 @@
 Introduction
 =========================
 
-These numerical tours will introduce you to a wide variety of topics in Computational Continuum Mechanics using the finite element software FEniCS.
 
-You can find instructions on how to install FEniCS on the FEniCS project website http://fenicsproject.org. In the following numerical tours, we will use the Python interface for the different FEniCS scripts.
+Welcome to these **Numerical Tours of Computational Mechanics with FEniCS**.
 
-FEniCS is also distributed along with an important number of documented or undocumented examples, some of them will be revisited in these tours but do not hesitate to look for other interesting examples.
 
-In particular, we advise you to go through the documentation and tutorials to get started with FEniCS.
+------------------------
+What is it about ?
+------------------------
 
---------------------
-A few words about FEniCS
---------------------
 
-Contrary to most finite element softwares in the computational mechanics community, FEniCS is a multi-purpose software that allows for the discretization and numerical resolution of a wide range of problems governed by partial differential equations.
+These numerical tours will introduce you to a wide variety of topics in 
+computational continuum and structural mechanics using the finite element software FEniCS. 
+Many covered topics can be considered as standard and will help the reader in
+getting started with FEniCS using solid mechanics examples. 
 
-The formulation of a problem in FEniCS relies on the definition of discrete functional spaces depending on a mesh. For instance, we can define :
+Other topics will also be more exploratory and will reflect currently investigated research topics,
+illustrating the versatility of FEniCS.
 
-.. code-block:: python
+The full set of demos can be obtained from the *COmputational MEchanics Toolbox* (COMET) available at
+https://gitlab.enpc.fr/jeremy.bleyer/comet-fenics.
 
-	# A continuous Galerkin ("CG") scalar function space interpolated with polynomials of degree 2
-	Vh = FunctionSpace(mesh,"CG",2)
-	# A discontinous Galerkin ("DG") vectorial function space (the dimension is fixed by the mesh) interpolated with polynomials of degree 1
-	Wh = VectorFunctionSpace(mesh,"DG",1)
 
-The next step is to define test and trial functions which will then be used to define forms (linear, bilinear or non-linear) representing the weak variational formulation of the problem which we aim at solving.
+-----------------------
+How do I get started ? 
+-----------------------
 
+You can find instructions on how to install FEniCS on the FEniCS project website 
+http://fenicsproject.org. In the following numerical tours, we will use the 
+Python interface for the different FEniCS scripts.
+
+FEniCS is also distributed along with an important number of documented or 
+undocumented examples, some of them will be revisited in these tours but do not 
+hesitate over looking at other interesting examples.
+
+In the following, we will assume that readers possess basic knowledge of FEniCS commands. 
+In particular, we advise you to go first through the documentation and tutorials https://fenicsproject.org/tutorial/
+if this is not the case.
+
+----------------------
+About the author
+----------------------
+
+`Jeremy Bleyer <https://sites.google.com/site/bleyerjeremy/>`_ is a researcher 
+in Solid and Structural Mechanics at `Laboratoire Navier <http://navier.enpc.fr>`_, 
+a joint research unit of `Ecole Nationale des Ponts et Chaussées <http://www.enpc.fr>`_, 
+`IFSTTAR <http://www.ifsttar.fr>`_ and `CNRS <http://www.cnrs.fr>`_ (UMR 8205).
 
 
 

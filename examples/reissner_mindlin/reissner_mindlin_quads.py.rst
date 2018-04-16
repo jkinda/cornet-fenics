@@ -1,13 +1,17 @@
 
-.. _ReissnerMindlin:
+.. _ReissnerMindlinQuads:
 
 ==========================================
 Reissner-Mindlin plate with Quadrilaterals
 ==========================================
 
+-------------
+Introduction
+-------------
 
 This program solves the Reissner-Mindlin plate equations on the unit
-square with uniform transverse loading and fully clamped boundary conditions.
+square with uniform transverse loading and fully clamped boundary conditions. 
+The corresponding file can be obtained from :download:`reissner_mindlin_quads.py`.
 
 It uses quadrilateral cells and selective reduced integration (SRI) to
 remove shear-locking issues in the thin plate limit. Both linear and 
@@ -18,6 +22,12 @@ The solution for :math:`w` in this demo will look as follows:
 
 .. image:: clamped_40x40.png
    :scale: 40 %
+
+
+
+---------------
+Implementation
+---------------
 
 
 Material parameters for isotropic linear elastic behavior are first defined::

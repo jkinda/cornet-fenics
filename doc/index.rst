@@ -6,11 +6,6 @@
 Welcome to Numerical tours of Computational Mechanics using FEniCS
 ==================================================================
 
-In the following you will find documented demos of FEniCS scripts implementing
-various computational mechanics models. The full set of demos can be obtained
-from the COmputational MEchanics Toolbox (COMET) available at
-https://gitlab.enpc.fr/jeremy.bleyer/comet-fenics
-
 Contents:
 
 .. toctree::
@@ -18,14 +13,7 @@ Contents:
 
    intro
    2D_elasticity
-   demo/reissner_mindlin/reissner_mindlin.py.rst
+   demo/reissner_mindlin/reissner_mindlin.rst
 
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 

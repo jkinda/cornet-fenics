@@ -3,23 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Numerical tours of Computational Continuum Mechanics using FEniCS
-==============================================================
+Reissner-Mindlin plates
+=======================
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   intro
-   2D_elasticity
+   reissner_mindlin_quads.py.rst
+   reissner_mindlin_dg.py.rst
 
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
