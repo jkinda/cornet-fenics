@@ -48,6 +48,13 @@ in Solid and Structural Mechanics at `Laboratoire Navier <http://navier.enpc.fr>
 a joint research unit of `Ecole Nationale des Ponts et Chaussées <http://www.enpc.fr>`_, 
 `IFSTTAR <http://www.ifsttar.fr>`_ and `CNRS <http://www.cnrs.fr>`_ (UMR 8205).
 
+.. image:: _static/logo_Navier.png
+   :scale: 8 %
+   :align: left
+.. image:: _static/logo_tutelles.png
+   :scale: 20 %
+   :align: right
+
 
 
 

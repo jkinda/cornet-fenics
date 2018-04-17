@@ -13,6 +13,7 @@ Contents:
 
    intro
    2D_elasticity
+   demo/modal_analysis_dynamics/cantilever_modal.py.rst
    demo/reissner_mindlin/reissner_mindlin.rst
 
 
