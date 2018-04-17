@@ -25,6 +25,7 @@ mesh = RectangleMesh(Point(0,0),Point(L,-H),50,30)
 # Create function space
 deg_vel = 2
 ns = deg_vel-1
+>>>>>>> bedd4a922b1d9701be2fd1a79d35a634c0ff4e19
 V = VectorFunctionSpace(mesh, "CG", deg_vel)
 We = VectorElement("Quadrature", mesh.ufl_cell(), degree=ns,dim=4,quad_scheme='default')
 W = FunctionSpace(mesh,We)
