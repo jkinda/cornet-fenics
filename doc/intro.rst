@@ -29,7 +29,8 @@ How do I get started ?
 
 You can find instructions on how to install FEniCS on the FEniCS project website 
 http://fenicsproject.org. In the following numerical tours, we will use the 
-Python interface for the different FEniCS scripts.
+Python interface for the different FEniCS scripts. These demos have been written
+using FEniCS 2017.2.0 but many should work with older versions.
 
 FEniCS is also distributed along with an important number of documented or 
 undocumented examples, some of them will be revisited in these tours but do not 
@@ -47,6 +48,8 @@ About the author
 in Solid and Structural Mechanics at `Laboratoire Navier <http://navier.enpc.fr>`_, 
 a joint research unit of `Ecole Nationale des Ponts et Chaussées <http://www.enpc.fr>`_, 
 `IFSTTAR <http://www.ifsttar.fr>`_ and `CNRS <http://www.cnrs.fr>`_ (UMR 8205).
+
+email: jeremy.bleyer@enpc.fr
 
 .. image:: _static/logo_Navier.png
    :scale: 8 %

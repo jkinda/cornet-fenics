@@ -16,7 +16,6 @@ mixed formulation using Hu-Washizu
 
 Elastodynamics 
 * time integration Newmark scheme, theta
-* modal analysis with SLEPC
 
 Poroelasticity
 
@@ -30,6 +29,10 @@ Homogenization in elasticity
 -> treatment of rigid particles with Lagrange multipliers
 
 Linear Buckling 
+
+Cosserat
+
+Strain gradient
 
 ##################
 Nonlinear problems
