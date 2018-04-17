@@ -12,7 +12,7 @@ Contents:
    :maxdepth: 2
 
    intro
-   2D_elasticity
+   demo/elasticity/2D_elasticity.py.rst
    demo/modal_analysis_dynamics/cantilever_modal.py.rst
    demo/reissner_mindlin/reissner_mindlin.rst
 
