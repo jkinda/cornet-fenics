@@ -16,6 +16,9 @@ L, H = 50., 1.
 Nx = 500
 Ny = int(H/L*Nx)+1
 
+# Create mesh
+mesh = RectangleMesh(Point(0.,0.),Point(L,H), Nx, Ny, 'crossed')
+
 # Elasticity parameters
 E, nu = 100., 0.
 # Material density
@@ -32,8 +35,6 @@ def sigma(v):
     dim = v.geometric_dimension()
     return 2.0*mu*eps(v) + lmbda*tr(eps(v))*Identity(dim)
 
-# Create mesh
-mesh = RectangleMesh(Point(0.,0.),Point(L,H), Nx, Ny, 'crossed')
 
 # Define function space
 V = VectorFunctionSpace(mesh, 'Lagrange', degree=2)

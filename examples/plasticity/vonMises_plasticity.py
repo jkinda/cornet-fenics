@@ -3,7 +3,7 @@ from mshr import *
 from time import time
 
 parameters["form_compiler"]["optimize"] = True
-parameters["form_compiler"]["representation"] = 'quadrature'
+parameters["form_compiler"]["representation"] = 'uflacs'
 
 set_log_level(INFO)
 
@@ -24,7 +24,7 @@ mesh = RectangleMesh(Point(0,0),Point(L,-H),50,30)
 
 # Create function space
 deg_vel = 2
-ns = deg_vel
+ns = deg_vel-1
 V = VectorFunctionSpace(mesh, "CG", deg_vel)
 We = VectorElement("Quadrature", mesh.ufl_cell(), degree=ns,dim=4,quad_scheme='default')
 W = FunctionSpace(mesh,We)
@@ -132,8 +132,8 @@ nitermax = 1e3
 for i in range(10):
     A,Res = assemble_system(a_Newton,res,bc)
     nRes = Res.norm("l2")
-    print nRes
     Du.interpolate(Constant((0,0)))
+    print "Increment:",str(i+1)
     while nRes > 1e-8 and niter < nitermax:
         solve(A, du.vector(), Res,"mumps")
         Du.assign(Du+du)
@@ -147,7 +147,7 @@ for i in range(10):
 ##        Res = assemble(res)
         A,Res = assemble_system(a_Newton,res,bc0)
         nRes = Res.norm("l2")
-        print "Residual:",nRes
+        print "    Residual:",nRes
         niter += 1
     u.assign(u+Du)
     sig_old.assign(sig)

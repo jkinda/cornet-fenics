@@ -76,7 +76,6 @@ nitermax = 1e3
 for i in range(10):
     A,Res = assemble_system(a_Newton,res,bc)
     nRes = Res.norm("l2")
-#    nRes=1.
     Du.interpolate(Constant(0.))
     print "Increment:",str(i+1)
     while nRes > 1e-8 and niter < nitermax:
