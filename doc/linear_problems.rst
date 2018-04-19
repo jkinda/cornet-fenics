@@ -3,17 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Numerical tours of Computational Mechanics using FEniCS
-==================================================================
+Linear problems in solid mechanics
+==================================
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   intro
-   linear_problems
-   demo/reissner_mindlin/reissner_mindlin.rst
+   demo/elasticity/2D_elasticity.py.rst
+   demo/modal_analysis_dynamics/cantilever_modal.py.rst
 
 
 

@@ -41,7 +41,7 @@ Plate bending stiffness :math:`D=\dfrac{Eh^3}{12(1-\nu^2)}` and shear stiffness 
 with a shear correction factor :math:`\kappa = 5/6` for a homogeneous plate
 of thickness :math:`h`::
 
- thick = Constant(1e-2)
+ thick = Constant(1e-3)
  D = E*thick**3/(1-nu**2)/12.
  F = E/2/(1+nu)*thick*5./6.
 
@@ -52,7 +52,7 @@ constant value in the thin plate Love-Kirchhoff limit::
 
 The unit square mesh is divided in :math:`N\times N` quadrilaterals::
 
- N = 40
+ N = 50
  mesh = UnitSquareMesh.create(N, N, CellType.Type_quadrilateral)
 
 Continuous interpolation using of degree :math:`d=\texttt{deg}` is chosen for both deflection and rotation::
@@ -127,5 +127,9 @@ We then solve for the solution and export the relevant fields to XDMF files ::
 The solution is compared to the Kirchhoff analytical solution::
 
  print "Kirchhoff deflection:", -1.265319087e-3*float(f/D)
- print "Reissner-Mindlin FE deflection:", min(ww.vector().get_local()) # point evaluation for quads
-                                                                       # is not implemented in fenics 2017.2
+ print "Reissner-Mindlin FE deflection:", -min(ww.vector().get_local()) # point evaluation for quads
+                                                                        # is not implemented in fenics 2017.2
+
+For ``N=50`` quads per side, one finds :math:`w_{FE} = 1.38182\text{e-5}` for linear quads
+and :math:`w_{FE} = 1.38176\text{e-5}` for quadratic quads against :math:`w_{\text{Kirchhoff}} = 1.38173\text{e-5}` for
+the thin plate solution.                                                                     

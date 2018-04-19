@@ -109,7 +109,7 @@ Hermitian matrices. By default, SLEPc computes the largest eigenvalues, here
 we instead look for the smallest eigenvalues (they should all be real). To
 improve convergence of the eigensolver for finding the smallest eigenvalues
 (by default it computes the largest ones), a spectral transform is performed
-using the keyword `shift-invert` i.e. the original problem is transformed into
+using the keyword ``shift-invert`` i.e. the original problem is transformed into
 an equivalent problem with eigenvalues given by :math:`\dfrac{1}{\lambda - \sigma}`
 instead of :math:`\lambda` where :math:`\sigma` is the value of the spectral shift.
 It is therefore much easier to compute eigenvalues close to :math:`\sigma` i.e.
@@ -118,7 +118,7 @@ transformed back by SLEPc to their original value :math:`\lambda`.
 
 
 We now ask SLEPc to extract the first 6 eigenvalues by calling its solve function
-and extract the corresponding eigenpair (first two arguments of `get_eigenpair`
+and extract the corresponding eigenpair (first two arguments of ``get_eigenpair``
 correspond to the real and complex part of the eigenvalue, the last two to the
 real and complex part of the eigenvector)::
  
@@ -168,8 +168,8 @@ where :math:`S=BH` is the beam section, :math:`I` the bending inertia and
 
 the solution of which can be well approximated by :math:`(2n+1)\pi/2` for :math:`n\geq 3`.
 Since the beam possesses two bending axis, each solution to the previous equation is
-associated to two frequencies with bending along the weak axis (:math:`I=I_{\text{weak}} = HB^3/12`)
-and along the strong axis (:math:`I=I_{\text{strong}} = BH^3/12`). Since :math:`I_{\text{strong}} = 4I_{\text{weak}}`
+associated with two frequencies, one with bending along the weak axis (:math:`I=I_{\text{weak}} = HB^3/12`)
+and the other along the strong axis (:math:`I=I_{\text{strong}} = BH^3/12`). Since :math:`I_{\text{strong}} = 4I_{\text{weak}}`
 for the considered numerical values, the strong axis bending frequency will be twice that corresponsing
 to bending along the weak axis. The solution :math:`\alpha_n` are computed using the
 ``scipy.optimize.root`` function with initial guess given by :math:`(2n+1)\pi/2`.

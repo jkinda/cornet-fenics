@@ -78,10 +78,9 @@ Injecting into :eq:`constitutive_3D`, we have for the 2D plane stress relation:
  \boldsymbol{\sigma} = \lambda^* \text{tr}(\boldsymbol{\varepsilon})\mathbf{1} + 2\mu\boldsymbol{\varepsilon}
 
 where :math:`\boldsymbol{\sigma}, \boldsymbol{\varepsilon}, \mathbf{1}` are 2D tensors and with
-:math:`\lambda^* = \dfrac{\lambda^2}{\lambda+\mu}`. Hence, the 2D constitutive relation 
-is identical to the plane strain case by changing only the value of the Lamé coefficient :math:`\lambda`
-(equivalently, this corresponds to using a pseudo-Poisson coefficient :math:`\nu^*=\dfrac{\nu}{1-\nu}`
-instead of :math:`\nu` when defining :math:`\lambda` in :eq:`Lame_coeff`). We can then have::
+:math:`\lambda^* = \dfrac{2\lambda\mu}{\lambda+2\mu}`. Hence, the 2D constitutive relation 
+is identical to the plane strain case by changing only the value of the Lamé coefficient :math:`\lambda`. 
+We can then have::
 
  E = Constant(1e5)
  nu = Constant(0.3)
@@ -90,7 +89,7 @@ instead of :math:`\nu` when defining :math:`\lambda` in :eq:`Lame_coeff`). We ca
  mu = E/2/(1+nu)
  lmbda = E*nu/(1+nu)/(1-2*nu)
  if model == "plane_stress":
-     lmbda = lmbda**2/(lmbda+mu)
+     lmbda = 2*mu*lmbda/(lmbda+2*mu)
      
  def sigma(v):
      return lmbda*tr(eps(v))*Identity(2) + 2.0*mu*eps(v)
@@ -160,5 +159,5 @@ Euler-Bernoulli beam theory which is here :math:`w_{beam} = \dfrac{qL^4}{8EI}`::
  print("Maximal deflection:", -u(L,H/2.)[1])
  print("Beam theory deflection:", float(3*rho_g*L**4/2/E/H**3))
 
-One finds :math:`w_{FE} = 5.8172\text{e-3}` against :math:`w_{beam} = 5.8594\text{e-3}` 
-that is a 0.72% difference.
+One finds :math:`w_{FE} = 5.8638\text{e-3}` against :math:`w_{beam} = 5.8594\text{e-3}` 
+that is a 0.07% difference.
