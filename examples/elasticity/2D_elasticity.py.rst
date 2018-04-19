@@ -14,7 +14,8 @@ Introduction
 
 In this first numerical tour, we will show how to compute a small strain solution for 
 a 2D isotropic linear elastic medium, either in plane stress or in plane strain,
-in a tradtional displacement-based finite element formulation. Extension to 3D
+in a tradtional displacement-based finite element formulation. The corresponding 
+file can be obtained from :download:`2D_elasticity.py`.Extension to 3D
 is straightforward and an example can be found in the :ref:`ModalAnalysis` example.
 
 We consider here the case of a cantilever beam modeled as a 2D medium of dimensions
@@ -161,3 +162,24 @@ Euler-Bernoulli beam theory which is here :math:`w_{beam} = \dfrac{qL^4}{8EI}`::
 
 One finds :math:`w_{FE} = 5.8638\text{e-3}` against :math:`w_{beam} = 5.8594\text{e-3}` 
 that is a 0.07% difference.
+
+
+The stress tensor must be projected on an appropriate function space in order to
+evaluate pointwise values or export it for Paraview vizualisation. Here we choose
+to describe it as a (2D) tensor and project it onto a piecewise constant function
+space::
+
+ Vsig = TensorFunctionSpace(mesh, "DG", degree=0)
+ sig = Function(Vsig, name="Stress")
+ sig.assign(project(sigma(u), Vsig))
+ print("Stress at (0,H):", sig(0, H))
+ 
+Fields can be exported in a suitable format for vizualisation using Paraview.
+VTK-based extensions (.pvd,.vtu) are not suited for multiple fields and parallel
+writing/reading. Prefered output format is now .xdmf::
+ 
+ file_results = XDMFFile("elasticity_results.xdmf")
+ file_results.parameters["flush_output"] = True
+ file_results.parameters["functions_share_mesh"] = True
+ file_results.write(u, 0.)
+ file_results.write(sig, 0.)

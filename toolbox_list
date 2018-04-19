@@ -1,3 +1,10 @@
+#############
+Introduction
+#############
+
+Workflow : geometry with Gmsh, dolfin-convert, export Paraview
+
+
 ###############
 Linear problems
 ###############
@@ -15,7 +22,7 @@ mixed formulation using Hu-Washizu
 -> volumetric locking
 
 Elastodynamics 
-* time integration Newmark scheme, theta
+* time integration Newmark scheme, theta (lumped mass matrix, efficient solving)
 
 Poroelasticity
 
