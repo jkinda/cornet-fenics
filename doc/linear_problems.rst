@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 1
 
    demo/elasticity/2D_elasticity.py.rst
+   demo/elasticity/orthotropic_elasticity.py.rst
    demo/modal_analysis_dynamics/cantilever_modal.py.rst
 
 

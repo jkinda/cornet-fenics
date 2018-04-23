@@ -1,7 +1,7 @@
 
 ..    # gedit: set fileencoding=utf8 :
 
-.. _LinearElasticity2D::
+.. _LinearElasticity2D:
 
 
 =========================
