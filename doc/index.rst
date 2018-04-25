@@ -15,6 +15,7 @@ Contents:
    linear_problems
    nonlinear_problems
    demo/reissner_mindlin/reissner_mindlin.rst
+   tips_and_tricks
 
 
 

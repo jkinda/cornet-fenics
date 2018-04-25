@@ -259,7 +259,7 @@ the stress and strain tensors. These nonlinear expressions must then be projecte
 back onto the associated Quadrature spaces. Since these fields are defined locally
 in each cell (in fact only at their associated Gauss point), this projection can
 be performed locally. For this reason, we define a ``local_project`` function
-that use the ``LocalSolver`` to gain in efficiency (see also :ref:`TipsStressProjection`_)
+that use the ``LocalSolver`` to gain in efficiency (see also :ref:`TipsTricksProjection`)
 for more details::
  
  def local_project(v, V, u=None):
