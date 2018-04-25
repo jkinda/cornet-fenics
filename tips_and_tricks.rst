@@ -26,3 +26,9 @@ def local_project(v,V):
     return u
 
 Local factorizations can be cached if projection is performed many times.
+
+
+Displacement-controlled for nonlinear problems
+----------------------------------------------
+
+Real Lagrange multiplier of loading

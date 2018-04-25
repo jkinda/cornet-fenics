@@ -20,6 +20,9 @@ import sys
 import os
 import shutil
 
+# extensions of files which must be copied with the demo when building docs
+file_extensions = [".png",".gif", ".geo", ".xml", ".msh", ".pdf"]
+
 def process():
     """Copy demo rst files (C++ and Python) from the DOLFIN source tree
     into the demo source tree, and process file with pylit.
@@ -72,8 +75,8 @@ def process():
                         if not ret == 0:
                             raise RuntimeError("Unable to convert rst file to a .py ({})".format(f))
 
-                png_files = [f for f in os.listdir(version_path) if os.path.splitext(f)[1] in [".png",".gif"] ]
-                for f in png_files:
+                tocopy_files = [f for f in os.listdir(version_path) if os.path.splitext(f)[1] in file_extensions ]
+                for f in tocopy_files:
                     source = os.path.join(version_path, f)
                     print("Copying {} to {}".format(source, demo_dir)) 
                     shutil.copy(source, demo_dir)

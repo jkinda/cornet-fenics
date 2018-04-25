@@ -13,6 +13,7 @@ Contents:
 
    intro
    linear_problems
+   nonlinear_problems
    demo/reissner_mindlin/reissner_mindlin.rst
 
 
