@@ -18,6 +18,11 @@ remove shear-locking issues in the thin plate limit. Both linear and
 quadratic interpolation are considered for the transverse deflection
 :math:`w` and rotation :math:`\underline{\theta}`.
 
+.. note:: Note that for a structured square grid such as this example, quadratic
+ quadrangles will not exhibit shear locking because of the strong symmetry (similar
+ to the criss-crossed configuration which does not lock). However, perturbating
+ the mesh coordinates to generate skewed elements suffice to exhibit shear locking.
+
 The solution for :math:`w` in this demo will look as follows:
 
 .. image:: clamped_40x40.png
