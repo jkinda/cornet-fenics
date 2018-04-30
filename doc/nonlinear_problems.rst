@@ -10,7 +10,7 @@ Contents:
 .. toctree::
    :maxdepth: 1
 
-   demo/nonlinear_materials/vonMises_plasticity.py.rst
+   demo/2D_plasticity/vonMises_plasticity.py.rst
 
 
 

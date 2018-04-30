@@ -3,20 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Numerical tours of Computational Mechanics using FEniCS
-==================================================================
+Homogenization of heterogeneous materials
+=========================================
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   intro
-   linear_problems
-   homogenization
-   nonlinear_problems
-   demo/reissner_mindlin/reissner_mindlin.rst
-   tips_and_tricks
+   demo/periodic_homog_elas/periodic_homog_elas.ipynb
 
 
 
