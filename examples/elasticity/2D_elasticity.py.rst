@@ -15,8 +15,11 @@ Introduction
 In this first numerical tour, we will show how to compute a small strain solution for
 a 2D isotropic linear elastic medium, either in plane stress or in plane strain,
 in a tradtional displacement-based finite element formulation. The corresponding
-file can be obtained from :download:`2D_elasticity.py`. Extension to 3D
-is straightforward and an example can be found in the :ref:`ModalAnalysis` example.
+file can be obtained from :download:`2D_elasticity.py`.
+
+.. seealso::
+
+ Extension to 3D is straightforward and an example can be found in the :ref:`ModalAnalysis` example.
 
 We consider here the case of a cantilever beam modeled as a 2D medium of dimensions
 :math:`L\times  H`. Geometrical parameters and mesh density are first defined
