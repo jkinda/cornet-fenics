@@ -13,6 +13,8 @@ Contents:
 
    demo/elasticity/2D_elasticity.py.rst
    demo/elasticity/orthotropic_elasticity.py.rst
+   demo/thermoelasticity/thermoelasticity.ipynb
+   demo/thermoelasticity/thermoelasticity_transient.ipynb
    demo/modal_analysis_dynamics/cantilever_modal.py.rst
 
 
