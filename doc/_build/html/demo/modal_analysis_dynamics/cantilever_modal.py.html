@@ -1,0 +1,340 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Modal analysis of an elastic structure &#8212; Numerical tours of continuum mechanics using FEniCS master documentation</title>
+    <link rel="stylesheet" href="../../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'master',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Homogenization of heterogeneous materials" href="../../homogenization.html" />
+    <link rel="prev" title="Thermo-elastic evolution problem (full coupling)" href="../thermoelasticity/thermoelasticity_transient.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../../index.html">Numerical tours of continuum mechanics using FEniCS</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="../thermoelasticity/thermoelasticity_transient.html" title="Thermo-elastic evolution problem (full coupling)"
+             accesskey="P">previous</a> |
+          <a href="../../homogenization.html" title="Homogenization of heterogeneous materials"
+             accesskey="N">next</a> |
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="modal-analysis-of-an-elastic-structure">
+<span id="modalanalysis"></span><h1>Modal analysis of an elastic structure<a class="headerlink" href="#modal-analysis-of-an-elastic-structure" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This program performs a dynamic modal analysis of an elastic cantilever beam
+represented by a 3D solid continuum. The eigenmodes are computed using the
+<strong>SLEPcEigensolver</strong> and compared against an analytical solution of beam theory.
+The corresponding file can be obtained from <a class="reference download internal" href="../../_downloads/cantilever_modal.py" download=""><code class="xref download docutils literal"><span class="pre">cantilever_modal.py</span></code></a>.</p>
+<p>The first four eigenmodes of this demo will look as follows:</p>
+<a class="reference internal image-reference" href="../../_images/vibration_modes.gif"><img alt="../../_images/vibration_modes.gif" src="../../_images/vibration_modes.gif" style="width: 635.2px; height: 628.0px;" /></a>
+<p>The first two fundamental modes are on top with bending along the weak axis (left) and along
+the strong axis (right), the next two modes are at the bottom.</p>
+</div>
+<div class="section" id="implementation">
+<h2>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h2>
+<p>After importing the relevant modules, the geometry of a beam of length <span class="math">\(L=20\)</span>
+and rectangular section of size <span class="math">\(B\times H\)</span> with <span class="math">\(B=0.5, H=1\)</span> is first defined:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fenics</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">L</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">H</span> <span class="o">=</span> <span class="mf">20.</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.</span>
+
+<span class="n">Nx</span> <span class="o">=</span> <span class="mi">200</span>
+<span class="n">Ny</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">B</span><span class="o">/</span><span class="n">L</span><span class="o">*</span><span class="n">Nx</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">Nz</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">H</span><span class="o">/</span><span class="n">L</span><span class="o">*</span><span class="n">Nx</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">BoxMesh</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">),</span><span class="n">Point</span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">B</span><span class="p">,</span><span class="n">H</span><span class="p">),</span> <span class="n">Nx</span><span class="p">,</span> <span class="n">Ny</span><span class="p">,</span> <span class="n">Nz</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Material parameters and elastic constitutive relations are classical (here we
+take <span class="math">\(\nu=0\)</span>) and we also introduce the material density <span class="math">\(\rho\)</span> for
+later definition of the mass matrix:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">E</span><span class="p">,</span> <span class="n">nu</span> <span class="o">=</span> <span class="mf">1e5</span><span class="p">,</span> <span class="mf">0.</span>
+<span class="n">rho</span> <span class="o">=</span> <span class="mf">1e-3</span>
+
+<span class="c1"># Lame coefficient for constitutive relation</span>
+<span class="n">mu</span> <span class="o">=</span> <span class="n">E</span><span class="o">/</span><span class="mf">2.</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">nu</span><span class="p">)</span>
+<span class="n">lmbda</span> <span class="o">=</span> <span class="n">E</span><span class="o">*</span><span class="n">nu</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">nu</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">nu</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">eps</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sym</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">sigma</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">geometric_dimension</span><span class="p">()</span>
+    <span class="k">return</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">mu</span><span class="o">*</span><span class="n">eps</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">+</span> <span class="n">lmbda</span><span class="o">*</span><span class="n">tr</span><span class="p">(</span><span class="n">eps</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="o">*</span><span class="n">Identity</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Standard FunctionSpace is defined and boundary conditions correspond to a
+fully clamped support at <span class="math">\(x=0\)</span>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">V</span> <span class="o">=</span> <span class="n">VectorFunctionSpace</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="s1">&#39;Lagrange&#39;</span><span class="p">,</span> <span class="n">degree</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">u_</span> <span class="o">=</span> <span class="n">TrialFunction</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+<span class="n">du</span> <span class="o">=</span> <span class="n">TestFunction</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">left</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">near</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mf">0.</span><span class="p">)</span>
+
+<span class="n">bc</span> <span class="o">=</span> <span class="n">DirichletBC</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">Constant</span><span class="p">((</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">)),</span> <span class="n">left</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The system stiffness matrix <span class="math">\([K]\)</span> and mass matrix <span class="math">\([M]\)</span> are
+respectively obtained from assembling the corresponding variational forms:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">k_form</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">sigma</span><span class="p">(</span><span class="n">du</span><span class="p">),</span><span class="n">eps</span><span class="p">(</span><span class="n">u_</span><span class="p">))</span><span class="o">*</span><span class="n">dx</span>
+<span class="n">l_form</span> <span class="o">=</span> <span class="n">Constant</span><span class="p">(</span><span class="mf">1.</span><span class="p">)</span><span class="o">*</span><span class="n">u_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">dx</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">PETScMatrix</span><span class="p">()</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">PETScVector</span><span class="p">()</span>
+<span class="n">assemble_system</span><span class="p">(</span><span class="n">k_form</span><span class="p">,</span> <span class="n">l_form</span><span class="p">,</span> <span class="n">bc</span><span class="p">,</span> <span class="n">A_tensor</span><span class="o">=</span><span class="n">K</span><span class="p">,</span> <span class="n">b_tensor</span><span class="o">=</span><span class="n">b</span><span class="p">)</span>
+
+<span class="n">m_form</span> <span class="o">=</span> <span class="n">rho</span><span class="o">*</span><span class="n">dot</span><span class="p">(</span><span class="n">du</span><span class="p">,</span><span class="n">u_</span><span class="p">)</span><span class="o">*</span><span class="n">dx</span>
+<span class="n">M</span> <span class="o">=</span> <span class="n">PETScMatrix</span><span class="p">()</span>
+<span class="n">assemble</span><span class="p">(</span><span class="n">m_form</span><span class="p">,</span> <span class="n">tensor</span><span class="o">=</span><span class="n">M</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Matrices <span class="math">\([K]\)</span> and <span class="math">\([M]\)</span> are first defined as PETSc Matrix and
+forms are assembled into it to ensure that they have the right type.
+Note that boundary conditions have been applied to the stiffness matrix using
+<code class="docutils literal"><span class="pre">assemble_system</span></code> so as to preserve symmetry (a dummy <code class="docutils literal"><span class="pre">l_form</span></code> and right-hand side
+vector have been introduced to call this function).</p>
+<p>Modal dynamic analysis consists in solving the following generalized
+eigenvalue problem <span class="math">\([K]\{U\}=\lambda[M]\{U\}\)</span> where the eigenvalue
+is related to the eigenfrequency <span class="math">\(\lambda=\omega^2\)</span>. This problem
+can be solved using the <code class="docutils literal"><span class="pre">SLEPcEigenSolver</span></code>.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">eigensolver</span> <span class="o">=</span> <span class="n">SLEPcEigenSolver</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+<span class="n">eigensolver</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;problem_type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;gen_hermitian&#39;</span>
+<span class="n">eigensolver</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;spectrum&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;smallest real&quot;</span>
+<span class="n">eigensolver</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;spectral_transform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;shift-and-invert&#39;</span>
+<span class="n">eigensolver</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;spectral_shift&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+</pre></div>
+</div>
+<p>The problem type is specified to be a generalized eigenvalue problem with
+Hermitian matrices. By default, SLEPc computes the largest eigenvalues, here
+we instead look for the smallest eigenvalues (they should all be real). To
+improve convergence of the eigensolver for finding the smallest eigenvalues
+(by default it computes the largest ones), a spectral transform is performed
+using the keyword <code class="docutils literal"><span class="pre">shift-invert</span></code> i.e. the original problem is transformed into
+an equivalent problem with eigenvalues given by <span class="math">\(\dfrac{1}{\lambda - \sigma}\)</span>
+instead of <span class="math">\(\lambda\)</span> where <span class="math">\(\sigma\)</span> is the value of the spectral shift.
+It is therefore much easier to compute eigenvalues close to <span class="math">\(\sigma\)</span> i.e.
+close to <span class="math">\(\sigma = 0\)</span> in the present case. Eigenvalues are then
+transformed back by SLEPc to their original value <span class="math">\(\lambda\)</span>.</p>
+<p>We now ask SLEPc to extract the first 6 eigenvalues by calling its solve function
+and extract the corresponding eigenpair (first two arguments of <code class="docutils literal"><span class="pre">get_eigenpair</span></code>
+correspond to the real and complex part of the eigenvalue, the last two to the
+real and complex part of the eigenvector):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">N_eig</span> <span class="o">=</span> <span class="mi">6</span>   <span class="c1"># number of eigenvalues</span>
+<span class="nb">print</span> <span class="s2">&quot;Computing </span><span class="si">%i</span><span class="s2"> first eigenvalues...&quot;</span> <span class="o">%</span> <span class="n">N_eig</span>
+<span class="n">eigensolver</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">N_eig</span><span class="p">)</span>
+
+<span class="c1"># Exact solution computation</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">root</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">cos</span><span class="p">,</span> <span class="n">cosh</span>
+<span class="n">falpha</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">cosh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">root</span><span class="p">(</span><span class="n">falpha</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="mf">2.</span><span class="p">)[</span><span class="s1">&#39;x&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># Set up file for exporting results</span>
+<span class="n">file_results</span> <span class="o">=</span> <span class="n">XDMFFile</span><span class="p">(</span><span class="s2">&quot;modal_analysis.xdmf&quot;</span><span class="p">)</span>
+<span class="n">file_results</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;flush_output&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">file_results</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s2">&quot;functions_share_mesh&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># Extraction</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_eig</span><span class="p">):</span>
+    <span class="c1"># Extract eigenpair</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">rx</span><span class="p">,</span> <span class="n">cx</span> <span class="o">=</span> <span class="n">eigensolver</span><span class="o">.</span><span class="n">get_eigenpair</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="c1"># 3D eigenfrequency</span>
+    <span class="n">freq_3D</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">r</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">pi</span>
+
+    <span class="c1"># Beam eigenfrequency</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c1"># exact solution should correspond to weak axis bending</span>
+        <span class="n">I_bend</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span><span class="n">B</span><span class="o">**</span><span class="mi">3</span><span class="o">/</span><span class="mf">12.</span>
+    <span class="k">else</span><span class="p">:</span>          <span class="c1">#exact solution should correspond to strong axis bending</span>
+        <span class="n">I_bend</span> <span class="o">=</span> <span class="n">B</span><span class="o">*</span><span class="n">H</span><span class="o">**</span><span class="mi">3</span><span class="o">/</span><span class="mf">12.</span>
+    <span class="n">freq_beam</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">sqrt</span><span class="p">(</span><span class="n">E</span><span class="o">*</span><span class="n">I_bend</span><span class="o">/</span><span class="p">(</span><span class="n">rho</span><span class="o">*</span><span class="n">B</span><span class="o">*</span><span class="n">H</span><span class="o">*</span><span class="n">L</span><span class="o">**</span><span class="mi">4</span><span class="p">))</span><span class="o">/</span><span class="mi">2</span><span class="o">/</span><span class="n">pi</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Solid FE: </span><span class="si">{0:8.5f}</span><span class="s2"> [Hz]   Beam theory: </span><span class="si">{1:8.5f}</span><span class="s2"> [Hz]&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">freq_3D</span><span class="p">,</span> <span class="n">freq_beam</span><span class="p">))</span>
+
+    <span class="c1"># Initialize function and assign eigenvector (renormalize by stiffness matrix)</span>
+    <span class="n">eigenmode</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Eigenvector &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="n">eigenmode</span><span class="o">.</span><span class="n">vector</span><span class="p">()[:]</span> <span class="o">=</span> <span class="n">rx</span><span class="o">/</span><span class="n">omega</span>
+</pre></div>
+</div>
+<p>The beam analytical solution is obtained using the eigenfrequencies of a clamped
+beam in bending given by <span class="math">\(\omega_n = \alpha_n^2\sqrt{\dfrac{EI}{\rho S L^4}}\)</span>
+where <span class="math">\(S=BH\)</span> is the beam section, <span class="math">\(I\)</span> the bending inertia and
+<span class="math">\(\alpha_n\)</span> is the solution of the following nonlinear equation:</p>
+<div class="math">
+\[\cos(\alpha)\cosh(\alpha)+1 = 0\]</div>
+<p>the solution of which can be well approximated by <span class="math">\((2n+1)\pi/2\)</span> for <span class="math">\(n\geq 3\)</span>.
+Since the beam possesses two bending axis, each solution to the previous equation is
+associated with two frequencies, one with bending along the weak axis (<span class="math">\(I=I_{\text{weak}} = HB^3/12\)</span>)
+and the other along the strong axis (<span class="math">\(I=I_{\text{strong}} = BH^3/12\)</span>). Since <span class="math">\(I_{\text{strong}} = 4I_{\text{weak}}\)</span>
+for the considered numerical values, the strong axis bending frequency will be twice that corresponsing
+to bending along the weak axis. The solution <span class="math">\(\alpha_n\)</span> are computed using the
+<code class="docutils literal"><span class="pre">scipy.optimize.root</span></code> function with initial guess given by <span class="math">\((2n+1)\pi/2\)</span>.</p>
+<p>With <code class="docutils literal"><span class="pre">Nx=400</span></code>, we obtain the following comparison between the FE eigenfrequencies
+and the beam theory eigenfrequencies :</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="37%" />
+<col width="49%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Mode</th>
+<th class="head" colspan="2">Eigenfrequencies</th>
+</tr>
+<tr class="row-even"><th class="head">#</th>
+<th class="head">Solid FE [Hz]</th>
+<th class="head">Beam theory [Hz]</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-odd"><td>1</td>
+<td>2.04991</td>
+<td>2.01925</td>
+</tr>
+<tr class="row-even"><td>2</td>
+<td>4.04854</td>
+<td>4.03850</td>
+</tr>
+<tr class="row-odd"><td>3</td>
+<td>12.81504</td>
+<td>12.65443</td>
+</tr>
+<tr class="row-even"><td>4</td>
+<td>25.12717</td>
+<td>25.30886</td>
+</tr>
+<tr class="row-odd"><td>5</td>
+<td>35.74168</td>
+<td>35.43277</td>
+</tr>
+<tr class="row-even"><td>6</td>
+<td>66.94816</td>
+<td>70.86554</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../intro.html#what-is-it-about">What is it about ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../intro.html#how-do-i-get-started">How do I get started ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../intro.html#about-the-author">About the author</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../linear_problems.html">Linear problems in solid mechanics</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../elasticity/2D_elasticity.py.html">2D linear elasticity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../elasticity/orthotropic_elasticity.py.html">Orthotropic linear elasticity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../elasticity/axisymmetric_elasticity.html">Axisymmetric formulation for elastic structures of revolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thermoelasticity/thermoelasticity.html">Linear thermoelasticity (weak coupling)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thermoelasticity/thermoelasticity_transient.html">Thermo-elastic evolution problem (full coupling)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Modal analysis of an elastic structure</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../homogenization.html">Homogenization of heterogeneous materials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../periodic_homog_elas/periodic_homog_elas.html">Periodic homogenization of linear elastic materials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../nonlinear_problems.html">Nonlinear problems in solid mechanics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2D_plasticity/vonMises_plasticity.py.html">Elasto-plastic analysis of a 2D von Mises material</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reissner_mindlin/reissner_mindlin.html">Reissner-Mindlin plates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reissner_mindlin/reissner_mindlin_quads.py.html">Reissner-Mindlin plate with Quadrilaterals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reissner_mindlin/reissner_mindlin_dg.py.html">Reissner-Mindlin plate with a Discontinuous-Galerkin approach</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tips_and_tricks.html">Tips and Tricks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tips_and_tricks.html#efficient-projection-on-dg-or-quadrature-spaces">Efficient projection on DG or Quadrature spaces</a></li>
+</ul>
+</li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="../thermoelasticity/thermoelasticity_transient.html" title="Thermo-elastic evolution problem (full coupling)"
+              >previous</a> |
+            <a href="../../homogenization.html" title="Homogenization of heterogeneous materials"
+              >next</a> |
+            <a href="../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../../_sources/demo/modal_analysis_dynamics/cantilever_modal.py.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Jeremy Bleyer.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>

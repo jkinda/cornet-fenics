@@ -1,0 +1,277 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Orthotropic linear elasticity &#8212; Numerical tours of continuum mechanics using FEniCS master documentation</title>
+    <link rel="stylesheet" href="../../_static/agogo.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     'master',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Axisymmetric formulation for elastic structures of revolution" href="axisymmetric_elasticity.html" />
+    <link rel="prev" title="2D linear elasticity" href="2D_elasticity.py.html" /> 
+  </head>
+  <body>
+    <div class="header-wrapper" role="banner">
+      <div class="header">
+        <div class="headertitle"><a
+          href="../../index.html">Numerical tours of continuum mechanics using FEniCS</a></div>
+        <div class="rel" role="navigation" aria-label="related navigation">
+          <a href="2D_elasticity.py.html" title="2D linear elasticity"
+             accesskey="P">previous</a> |
+          <a href="axisymmetric_elasticity.html" title="Axisymmetric formulation for elastic structures of revolution"
+             accesskey="N">next</a> |
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a>
+        </div>
+       </div>
+    </div>
+
+    <div class="content-wrapper">
+      <div class="content">
+        <div class="document">
+            
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="orthotropic-linear-elasticity">
+<span id="orthotropicelasticity"></span><h1>Orthotropic linear elasticity<a class="headerlink" href="#orthotropic-linear-elasticity" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>In this numerical tour, we will show how to tackle the case of orthotropic elasticity (in a 2D setting). The corresponding file can be obtained from
+<a class="reference download internal" href="../../_downloads/orthotropic_elasticity.py" download=""><code class="xref download docutils literal"><span class="pre">orthotropic_elasticity.py</span></code></a>.</p>
+<p>We consider here the case of a square plate perforated by a circular hole of
+radius <span class="math">\(R\)</span>, the plate dimension is <span class="math">\(2L\times 2L\)</span> with <span class="math">\(L \gg R\)</span>
+Only the top-right quarter of the plate will be considered. Loading will consist
+of a uniform traction on the top/bottom boundaries, symmetry conditions will also
+be applied on the correponding symmetry planes. To generate the perforated domain
+we use here the <code class="docutils literal"><span class="pre">mshr</span></code> module and define the boolean “<em>minus</em>” operation
+between a rectangle and a circle:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">fenics</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">mshr</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="n">L</span><span class="p">,</span> <span class="n">R</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="mf">0.1</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">50</span> <span class="c1"># mesh density</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="n">Rectangle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">),</span> <span class="n">Point</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">L</span><span class="p">))</span> <span class="o">-</span> <span class="n">Circle</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">),</span> <span class="n">R</span><span class="p">)</span>
+<span class="n">mesh</span> <span class="o">=</span> <span class="n">generate_mesh</span><span class="p">(</span><span class="n">domain</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="constitutive-relation">
+<h2>Constitutive relation<a class="headerlink" href="#constitutive-relation" title="Permalink to this headline">¶</a></h2>
+<p>Constitutive relations will be defined using an engineering (or Voigt) notation (i.e.
+second order tensors will be written as a vector of their components) contrary
+to the <a class="reference internal" href="2D_elasticity.py.html#linearelasticity2d"><span class="std std-ref">2D linear elasticity</span></a> example which used an intrinsic notation. In
+the material frame, which is assumed to coincide here with the global <span class="math">\((Oxy)\)</span>
+frame, the orthotropic constitutive law writes <span class="math">\(\boldsymbol{\varepsilon}=\mathbf{S}
+\boldsymbol{\sigma}\)</span> using the compliance matrix
+<span class="math">\(\mathbf{S}\)</span> with:</p>
+<div class="math">
+\[\begin{split}\begin{Bmatrix} \varepsilon_{xx} \\ \varepsilon_{yy} \\ 2\varepsilon_{xy}
+\end{Bmatrix} = \begin{bmatrix} 1/E_x &amp; -\nu_{xy}/E_x &amp; 0\\
+-\nu_{yx}/E_y &amp; 1/E_y &amp; 0 \\ 0 &amp; 0 &amp; 1/G_{xy} \end{bmatrix}\begin{Bmatrix}
+\sigma_{xx} \\ \sigma_{yy} \\ \sigma_{xy}
+\end{Bmatrix}\end{split}\]</div>
+<p>with <span class="math">\(E_x, E_y\)</span> the two Young’s moduli in the orthotropy directions, <span class="math">\(\nu_{xy}\)</span>
+the in-plane Poisson ration (with the following relation ensuring the constitutive
+relation symmetry <span class="math">\(\nu_{yx}=\nu_{xy}E_y/E_x\)</span>) and <span class="math">\(G_{xy}\)</span> being the
+shear modulus. This relation needs to be inverted to obtain the stress components as a function
+of the strain components <span class="math">\(\boldsymbol{\sigma}=\mathbf{C}\boldsymbol{\varepsilon}\)</span> with
+<span class="math">\(\mathbf{C}=\mathbf{S}^{-1}\)</span>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Ex</span><span class="p">,</span> <span class="n">Ey</span><span class="p">,</span> <span class="n">nuxy</span><span class="p">,</span> <span class="n">Gxy</span> <span class="o">=</span> <span class="mf">100.</span><span class="p">,</span> <span class="mf">10.</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">5.</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">as_matrix</span><span class="p">([[</span><span class="mf">1.</span><span class="o">/</span><span class="n">Ex</span><span class="p">,</span><span class="n">nuxy</span><span class="o">/</span><span class="n">Ex</span><span class="p">,</span><span class="mf">0.</span><span class="p">],[</span><span class="n">nuxy</span><span class="o">/</span><span class="n">Ex</span><span class="p">,</span><span class="mf">1.</span><span class="o">/</span><span class="n">Ey</span><span class="p">,</span><span class="mf">0.</span><span class="p">],[</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="o">/</span><span class="n">Gxy</span><span class="p">]])</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Here we used the <code class="docutils literal"><span class="pre">inv</span></code> opertor to compute the elasticity matrix <span class="math">\(\mathbf{C}\)</span>.
+We could also have computed analytically the inverse relation. Note that the <code class="docutils literal"><span class="pre">inv</span></code>
+operator is implemented only up to 3x3 matrices. Extension to the 3D case yields 6x6
+matrices and therefore requires either analytical inversion or numerical inversion
+using Numpy for instance (assuming that the material parameters are constants).</p>
+</div>
+<p>We define different functions for representing the stress and strain either as
+second-order tensor or using the Voigt engineering notation:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">eps</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sym</span><span class="p">(</span><span class="n">grad</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">strain2voigt</span><span class="p">(</span><span class="n">e</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;e is a 2nd-order tensor, returns its Voigt vectorial representation&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">as_vector</span><span class="p">([</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="mi">2</span><span class="o">*</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span>
+<span class="k">def</span> <span class="nf">voigt2stress</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    s is a stress-like vector (no 2 factor on last component)</span>
+<span class="sd">    returns its tensorial representation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">as_tensor</span><span class="p">([[</span><span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">]],[</span><span class="n">s</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="p">]]])</span>
+<span class="k">def</span> <span class="nf">sigma</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">voigt2stress</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="n">strain2voigt</span><span class="p">(</span><span class="n">eps</span><span class="p">(</span><span class="n">v</span><span class="p">))))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="problem-position-and-resolution">
+<h2>Problem position and resolution<a class="headerlink" href="#problem-position-and-resolution" title="Permalink to this headline">¶</a></h2>
+<p>Different parts of the quarter plate boundaries are now defined as well as the
+exterior integration measure <code class="docutils literal"><span class="pre">ds</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Top</span><span class="p">(</span><span class="n">SubDomain</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inside</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">near</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">L</span><span class="p">)</span> <span class="ow">and</span> <span class="n">on_boundary</span>
+<span class="k">class</span> <span class="nc">Left</span><span class="p">(</span><span class="n">SubDomain</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inside</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">near</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="n">on_boundary</span>
+<span class="k">class</span> <span class="nc">Bottom</span><span class="p">(</span><span class="n">SubDomain</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">inside</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">on_boundary</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">near</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="n">on_boundary</span>
+
+<span class="c1"># exterior facets MeshFunction</span>
+<span class="n">facets</span> <span class="o">=</span> <span class="n">MeshFunction</span><span class="p">(</span><span class="s2">&quot;size_t&quot;</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">facets</span><span class="o">.</span><span class="n">set_all</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Top</span><span class="p">()</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="n">facets</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">Left</span><span class="p">()</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="n">facets</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">Bottom</span><span class="p">()</span><span class="o">.</span><span class="n">mark</span><span class="p">(</span><span class="n">facets</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">Measure</span><span class="p">(</span><span class="s1">&#39;ds&#39;</span><span class="p">)[</span><span class="n">facets</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>We are now in position to define the variational form which is given as in <a class="reference internal" href="2D_elasticity.py.html#linearelasticity2d"><span class="std std-ref">2D linear elasticity</span></a>,
+the linear form now contains a Neumann term corresponding to a uniform vertical traction <span class="math">\(\sigma_{\infty}\)</span>
+on the top boundary:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># Define function space</span>
+<span class="n">V</span> <span class="o">=</span> <span class="n">VectorFunctionSpace</span><span class="p">(</span><span class="n">mesh</span><span class="p">,</span> <span class="s1">&#39;Lagrange&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Define variational problem</span>
+<span class="n">du</span> <span class="o">=</span> <span class="n">TrialFunction</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+<span class="n">u_</span> <span class="o">=</span> <span class="n">TestFunction</span><span class="p">(</span><span class="n">V</span><span class="p">)</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;Displacement&#39;</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">inner</span><span class="p">(</span><span class="n">sigma</span><span class="p">(</span><span class="n">du</span><span class="p">),</span> <span class="n">eps</span><span class="p">(</span><span class="n">u_</span><span class="p">))</span><span class="o">*</span><span class="n">dx</span>
+
+<span class="c1"># uniform traction on top boundary</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">Constant</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">))</span>
+<span class="n">l</span> <span class="o">=</span> <span class="n">dot</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">u_</span><span class="p">)</span><span class="o">*</span><span class="n">ds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Symmetric boundary conditions are applied on the <code class="docutils literal"><span class="pre">Top</span></code> and <code class="docutils literal"><span class="pre">Left</span></code> boundaries
+and the problem is solved:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># symmetry boundary conditions</span>
+<span class="n">bc</span> <span class="o">=</span> <span class="p">[</span><span class="n">DirichletBC</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">Constant</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span> <span class="n">facets</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+      <span class="n">DirichletBC</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">Constant</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span> <span class="n">facets</span><span class="p">,</span> <span class="mi">3</span><span class="p">)]</span>
+
+<span class="n">solve</span><span class="p">(</span><span class="n">a</span> <span class="o">==</span> <span class="n">l</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">bc</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">sigma</span><span class="p">(</span><span class="n">u</span><span class="p">)[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;color&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\sigma_</span><span class="si">{yy}</span><span class="s2">$&quot;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">26</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <span class="math">\(\sigma_{xx}\)</span> and <span class="math">\(\sigma_{yy}\)</span> components should look like
+that:</p>
+<a class="reference internal image-reference" href="../../_images/circular_hole_sigxx.png"><img alt="../../_images/circular_hole_sigxx.png" class="align-left" src="../../_images/circular_hole_sigxx.png" style="width: 343.75px; height: 312.84px;" /></a>
+<a class="reference internal image-reference" href="../../_images/circular_hole_sigyy.png"><img alt="../../_images/circular_hole_sigyy.png" class="align-right" src="../../_images/circular_hole_sigyy.png" style="width: 333.74px; height: 316.03px;" /></a>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+        </div>
+        <div class="sidebar">
+          <h3>Table Of Contents</h3>
+          <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../intro.html#what-is-it-about">What is it about ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../intro.html#how-do-i-get-started">How do I get started ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../intro.html#about-the-author">About the author</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../linear_problems.html">Linear problems in solid mechanics</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="2D_elasticity.py.html">2D linear elasticity</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Orthotropic linear elasticity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="axisymmetric_elasticity.html">Axisymmetric formulation for elastic structures of revolution</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thermoelasticity/thermoelasticity.html">Linear thermoelasticity (weak coupling)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../thermoelasticity/thermoelasticity_transient.html">Thermo-elastic evolution problem (full coupling)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../modal_analysis_dynamics/cantilever_modal.py.html">Modal analysis of an elastic structure</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../homogenization.html">Homogenization of heterogeneous materials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../periodic_homog_elas/periodic_homog_elas.html">Periodic homogenization of linear elastic materials</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../nonlinear_problems.html">Nonlinear problems in solid mechanics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../2D_plasticity/vonMises_plasticity.py.html">Elasto-plastic analysis of a 2D von Mises material</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reissner_mindlin/reissner_mindlin.html">Reissner-Mindlin plates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reissner_mindlin/reissner_mindlin_quads.py.html">Reissner-Mindlin plate with Quadrilaterals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reissner_mindlin/reissner_mindlin_dg.py.html">Reissner-Mindlin plate with a Discontinuous-Galerkin approach</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tips_and_tricks.html">Tips and Tricks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tips_and_tricks.html#efficient-projection-on-dg-or-quadrature-spaces">Efficient projection on DG or Quadrature spaces</a></li>
+</ul>
+</li>
+</ul>
+
+          <div role="search">
+            <h3 style="margin-top: 1.5em;">Search</h3>
+            <form class="search" action="../../search.html" method="get">
+                <input type="text" name="q" />
+                <input type="submit" value="Go" />
+                <input type="hidden" name="check_keywords" value="yes" />
+                <input type="hidden" name="area" value="default" />
+            </form>
+          </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+    <div class="footer-wrapper">
+      <div class="footer">
+        <div class="left">
+          <div role="navigation" aria-label="related navigaton">
+            <a href="2D_elasticity.py.html" title="2D linear elasticity"
+              >previous</a> |
+            <a href="axisymmetric_elasticity.html" title="Axisymmetric formulation for elastic structures of revolution"
+              >next</a> |
+            <a href="../../genindex.html" title="General Index"
+              >index</a>
+          </div>
+          <div role="note" aria-label="source link">
+              <br/>
+              <a href="../../_sources/demo/elasticity/orthotropic_elasticity.py.rst.txt"
+                rel="nofollow">Show Source</a>
+          </div>
+        </div>
+
+        <div class="right">
+          
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2016, Jeremy Bleyer.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.5.
+    </div>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </div>
+
+  </body>
+</html>
