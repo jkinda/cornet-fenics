@@ -22,6 +22,18 @@ illustrating the versatility of FEniCS.
 The full set of demos can be obtained from the *COmputational MEchanics Toolbox* (COMET) available at
 https://gitlab.enpc.fr/jeremy.bleyer/comet-fenics.
 
+If you find these demos useful for your research work, please consider citing them using the following
+Zenodo DOI https://doi.org/10.5281/zenodo.1287832
+
+.. code-block:: none
+
+	@article{bleyer2018numericaltours, 
+	title={Numerical Tours of Computational Mechanics with FEniCS}, 
+	DOI={10.5281/zenodo.1287832}, 
+	publisher={Zenodo}, 
+	author={Jeremy Bleyer}, 
+	year={2018}}
+
 
 -----------------------
 How do I get started ? 

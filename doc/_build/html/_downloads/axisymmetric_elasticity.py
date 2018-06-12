@@ -9,7 +9,7 @@
 # 
 # We will investigate here the case of a hollow hemisphere of inner (resp. outer) radius $R_i$ (resp. $R_e$). Due to the revolution symmetry, the 2D cross-section corresponds to a quarter of a hollow cylinder.
 
-# In[50]:
+# In[51]:
 
 
 from __future__ import print_function
@@ -65,7 +65,7 @@ ds = Measure("ds", subdomain_data=facets)
 # 
 # > **Note**: we could also express the strain components in the form of a vector of size 4 in alternative of the 3D tensor representation implemented below.
 
-# In[43]:
+# In[52]:
 
 
 x = SpatialCoordinate(mesh)
@@ -104,7 +104,7 @@ def sigma(v):
 # 
 # The final formulation is therefore pretty straightforward. Since a uniform pressure loading is applied on the outer boundary, we will also need the exterior normal vector to define the work of external forces form.
 
-# In[44]:
+# In[53]:
 
 
 n = FacetNormal(mesh)
@@ -125,7 +125,7 @@ u = Function(V, name="Displacement")
 # \quad u_z=0
 # \end{equation}
 
-# In[45]:
+# In[54]:
 
 
 bcs = [DirichletBC(V.sub(1), Constant(0), facets, 1),
@@ -135,7 +135,7 @@ print("Inwards radial displacement at (r=Re, theta=0): {:1.7f} (FE) {:1.7f} (Exa
 print("Inwards radial displacement at (r=Ri, theta=0): {:1.7f} (FE) {:1.7f} (Exact)".format(-u(Ri, 0.)[0], float(Re**3/(Re**3-Ri**3)*((1-2*nu)*Ri+(1+nu)*Ri/2)*p/E)))
 
 
-# In[46]:
+# In[55]:
 
 
 plt.figure()
@@ -145,7 +145,7 @@ plt.show()
 
 # The second loading case corresponds to a fully clamped condition on $z=0$, the vertical boundary remaining in smooth contact.
 
-# In[48]:
+# In[56]:
 
 
 bcs = [DirichletBC(V, Constant((0., 0.)), facets, 1),
