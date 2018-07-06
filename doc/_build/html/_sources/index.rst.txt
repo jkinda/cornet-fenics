@@ -15,7 +15,7 @@ Contents:
    linear_problems
    homogenization
    nonlinear_problems
-   demo/reissner_mindlin/reissner_mindlin.rst
+   beams_and_plates
    tips_and_tricks
 
 

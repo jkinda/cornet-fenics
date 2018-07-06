@@ -188,7 +188,7 @@ real and complex part of the eigenvector):</p>
 
     <span class="c1"># Initialize function and assign eigenvector (renormalize by stiffness matrix)</span>
     <span class="n">eigenmode</span> <span class="o">=</span> <span class="n">Function</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Eigenvector &quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-    <span class="n">eigenmode</span><span class="o">.</span><span class="n">vector</span><span class="p">()[:]</span> <span class="o">=</span> <span class="n">rx</span><span class="o">/</span><span class="n">omega</span>
+    <span class="n">eigenmode</span><span class="o">.</span><span class="n">vector</span><span class="p">()[:]</span> <span class="o">=</span> <span class="n">rx</span>
 </pre></div>
 </div>
 <p>The beam analytical solution is obtained using the eigenfrequencies of a clamped
@@ -282,7 +282,8 @@ and the beam theory eigenfrequencies :</p>
 <li class="toctree-l2"><a class="reference internal" href="../2D_plasticity/vonMises_plasticity.py.html">Elasto-plastic analysis of a 2D von Mises material</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../reissner_mindlin/reissner_mindlin.html">Reissner-Mindlin plates</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../beams_and_plates.html">Beams and plates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../timoshenko/beam_buckling.html">Eulerian buckling of a beam</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reissner_mindlin/reissner_mindlin_quads.py.html">Reissner-Mindlin plate with Quadrilaterals</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reissner_mindlin/reissner_mindlin_dg.py.html">Reissner-Mindlin plate with a Discontinuous-Galerkin approach</a></li>
 </ul>

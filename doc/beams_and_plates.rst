@@ -3,20 +3,17 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Numerical tours of Computational Mechanics using FEniCS
-==================================================================
+Beams and plates
+=================
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   intro
-   linear_problems
-   homogenization
-   nonlinear_problems
-   beams_and_plates
-   tips_and_tricks
+   demo/timoshenko/beam_buckling.ipynb
+   demo/reissner_mindlin/reissner_mindlin_quads.py.rst
+   demo/reissner_mindlin/reissner_mindlin_dg.py.rst
 
 
 

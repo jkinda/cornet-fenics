@@ -10,8 +10,8 @@ Introduction
 -------------
 
 This program performs a dynamic modal analysis of an elastic cantilever beam
-represented by a 3D solid continuum. The eigenmodes are computed using the 
-**SLEPcEigensolver** and compared against an analytical solution of beam theory. 
+represented by a 3D solid continuum. The eigenmodes are computed using the
+**SLEPcEigensolver** and compared against an analytical solution of beam theory.
 The corresponding file can be obtained from :download:`cantilever_modal.py`.
 
 
@@ -20,14 +20,14 @@ The first four eigenmodes of this demo will look as follows:
 .. image:: vibration_modes.gif
    :scale: 80 %
 
-The first two fundamental modes are on top with bending along the weak axis (left) and along 
-the strong axis (right), the next two modes are at the bottom. 
+The first two fundamental modes are on top with bending along the weak axis (left) and along
+the strong axis (right), the next two modes are at the bottom.
 
 ---------------
 Implementation
 ---------------
 
-After importing the relevant modules, the geometry of a beam of length :math:`L=20` 
+After importing the relevant modules, the geometry of a beam of length :math:`L=20`
 and rectangular section of size :math:`B\times H` with :math:`B=0.5, H=1` is first defined::
 
  from fenics import *
@@ -43,7 +43,7 @@ and rectangular section of size :math:`B\times H` with :math:`B=0.5, H=1` is fir
 
 
 Material parameters and elastic constitutive relations are classical (here we
-take :math:`\nu=0`) and we also introduce the material density :math:`\rho` for 
+take :math:`\nu=0`) and we also introduce the material density :math:`\rho` for
 later definition of the mass matrix::
 
  E, nu = 1e5, 0.
@@ -59,7 +59,7 @@ later definition of the mass matrix::
      dim = v.geometric_dimension()
      return 2.0*mu*eps(v) + lmbda*tr(eps(v))*Identity(dim)
 
-Standard FunctionSpace is defined and boundary conditions correspond to a 
+Standard FunctionSpace is defined and boundary conditions correspond to a
 fully clamped support at :math:`x=0`::
 
  V = VectorFunctionSpace(mesh, 'Lagrange', degree=1)
@@ -73,7 +73,7 @@ fully clamped support at :math:`x=0`::
  bc = DirichletBC(V, Constant((0.,0.,0.)), left)
 
 
-The system stiffness matrix :math:`[K]` and mass matrix :math:`[M]` are 
+The system stiffness matrix :math:`[K]` and mass matrix :math:`[M]` are
 respectively obtained from assembling the corresponding variational forms::
 
  k_form = inner(sigma(du),eps(u_))*dx
@@ -86,14 +86,14 @@ respectively obtained from assembling the corresponding variational forms::
  M = PETScMatrix()
  assemble(m_form, tensor=M)
 
-Matrices :math:`[K]` and :math:`[M]` are first defined as PETSc Matrix and 
+Matrices :math:`[K]` and :math:`[M]` are first defined as PETSc Matrix and
 forms are assembled into it to ensure that they have the right type.
 Note that boundary conditions have been applied to the stiffness matrix using
 ``assemble_system`` so as to preserve symmetry (a dummy ``l_form`` and right-hand side
-vector have been introduced to call this function). 
+vector have been introduced to call this function).
 
 
-Modal dynamic analysis consists in solving the following generalized 
+Modal dynamic analysis consists in solving the following generalized
 eigenvalue problem :math:`[K]\{U\}=\lambda[M]\{U\}` where the eigenvalue
 is related to the eigenfrequency :math:`\lambda=\omega^2`. This problem
 can be solved using the ``SLEPcEigenSolver``. ::
@@ -121,7 +121,7 @@ We now ask SLEPc to extract the first 6 eigenvalues by calling its solve functio
 and extract the corresponding eigenpair (first two arguments of ``get_eigenpair``
 correspond to the real and complex part of the eigenvalue, the last two to the
 real and complex part of the eigenvector)::
- 
+
  N_eig = 6   # number of eigenvalues
  print "Computing %i first eigenvalues..." % N_eig
  eigensolver.solve(N_eig)
@@ -136,31 +136,31 @@ real and complex part of the eigenvector)::
  file_results = XDMFFile("modal_analysis.xdmf")
  file_results.parameters["flush_output"] = True
  file_results.parameters["functions_share_mesh"] = True
- 
+
  # Extraction
  for i in range(N_eig):
      # Extract eigenpair
      r, c, rx, cx = eigensolver.get_eigenpair(i)
-     
+
      # 3D eigenfrequency
      freq_3D = sqrt(r)/2/pi
-     
+
      # Beam eigenfrequency
      if i % 2 == 0: # exact solution should correspond to weak axis bending
          I_bend = H*B**3/12.
      else:          #exact solution should correspond to strong axis bending
          I_bend = B*H**3/12.
      freq_beam = alpha(i/2)**2*sqrt(E*I_bend/(rho*B*H*L**4))/2/pi
-     
+
      print("Solid FE: {0:8.5f} [Hz]   Beam theory: {1:8.5f} [Hz]".format(freq_3D, freq_beam))
 
      # Initialize function and assign eigenvector (renormalize by stiffness matrix)
      eigenmode = Function(V,name="Eigenvector "+str(i))
-     eigenmode.vector()[:] = rx/omega
+     eigenmode.vector()[:] = rx
 
 The beam analytical solution is obtained using the eigenfrequencies of a clamped
 beam in bending given by :math:`\omega_n = \alpha_n^2\sqrt{\dfrac{EI}{\rho S L^4}}`
-where :math:`S=BH` is the beam section, :math:`I` the bending inertia and 
+where :math:`S=BH` is the beam section, :math:`I` the bending inertia and
 :math:`\alpha_n` is the solution of the following nonlinear equation:
 
 .. math::
@@ -173,9 +173,9 @@ and the other along the strong axis (:math:`I=I_{\text{strong}} = BH^3/12`). Sin
 for the considered numerical values, the strong axis bending frequency will be twice that corresponsing
 to bending along the weak axis. The solution :math:`\alpha_n` are computed using the
 ``scipy.optimize.root`` function with initial guess given by :math:`(2n+1)\pi/2`.
-    
+
 With ``Nx=400``, we obtain the following comparison between the FE eigenfrequencies
-and the beam theory eigenfrequencies : 
+and the beam theory eigenfrequencies :
 
 
 =====  =============  =================
@@ -184,11 +184,11 @@ Mode      Eigenfrequencies
  #     Solid FE [Hz]   Beam theory [Hz]
 =====  =============  =================
   1      2.04991           2.01925
-  2      4.04854           4.03850 
+  2      4.04854           4.03850
   3      12.81504         12.65443
-  4      25.12717         25.30886 
+  4      25.12717         25.30886
   5      35.74168         35.43277
-  6      66.94816         70.86554 
+  6      66.94816         70.86554
 =====  =============  =================
 
 
