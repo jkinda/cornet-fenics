@@ -10,6 +10,7 @@ Contents:
 .. toctree::
    :maxdepth: 1
 
+   demo/viscoelasticity/linear_viscoelasticity.ipynb
    demo/2D_plasticity/vonMises_plasticity.py.rst
 
 
