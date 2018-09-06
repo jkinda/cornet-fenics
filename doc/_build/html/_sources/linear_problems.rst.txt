@@ -17,6 +17,7 @@ Contents:
    demo/thermoelasticity/thermoelasticity.ipynb
    demo/thermoelasticity/thermoelasticity_transient.ipynb
    demo/modal_analysis_dynamics/cantilever_modal.py.rst
+   demo/elastodynamics/demo_elastodynamics.py.rst
 
 
 
