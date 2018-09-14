@@ -1,0 +1,3 @@
+#!/bin/bash
+# Execute this file to recompile locally
+c++ -Wall -shared -fPIC -std=c++11 -O2 -I/usr/include -I/home/bleyerj/.cache/dijitso/include ffc_form_9bc5ffe367d1e456432d1740919e312cffd43532.cpp -L/home/bleyerj/.cache/dijitso/lib -Wl,-rpath,/home/bleyerj/.cache/dijitso/lib -ldijitso-ffc_element_96b054dc61643dc89765c403a3b0fac357e5ae3a -ldijitso-ffc_element_c09ad6d3b8db244401737e4ca70dbd9fdf6d9378 -ldijitso-ffc_element_b31855883b6654fcbd210a4f97d0b360c2dc7892 -ldijitso-ffc_coordinate_mapping_8563311846154974a92feb530dfcf82f2796d9e1 -olibdijitso-ffc_form_9bc5ffe367d1e456432d1740919e312cffd43532.so
