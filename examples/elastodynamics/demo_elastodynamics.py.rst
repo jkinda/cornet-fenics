@@ -3,6 +3,10 @@
 
 .. _demo_elastodynamics:
 
+.. raw:: html
+
+ <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><p align="center"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"/></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a></p>
+
 ============================================
 Time-integration of elastodynamics equation
 ============================================
@@ -24,7 +28,7 @@ The deformed structure evolution over time along with the axial stress will look
    :align: center
 
 
------------------------------------------ 
+-----------------------------------------
 Introduction and elastodynamics equation
 -----------------------------------------
 
@@ -33,22 +37,22 @@ The elastodynamics equation combine the balance of linear momentum:
 .. math::
    \nabla \cdot \sigma + \rho b = \rho \ddot{u}
 
-where :math:`u` is the displacement vector field, :math:`\ddot{u}=\partial^2 u/\partial t^2` is the acceleration, 
-:math:`\rho` the material density, :math:`b` a given body force and :math:`\sigma` the stress tensor which is related 
+where :math:`u` is the displacement vector field, :math:`\ddot{u}=\partial^2 u/\partial t^2` is the acceleration,
+:math:`\rho` the material density, :math:`b` a given body force and :math:`\sigma` the stress tensor which is related
 to the displacement through a constitutive equation. In the case of isotropic linearized elasticity, one has:
 
 .. math::
    \sigma =\lambda \text{tr}(\varepsilon)\mathbb{1} + 2\mu\varepsilon
 
-where :math:`\varepsilon = (\nabla u + (\nabla u)^T)/2` is the linearized strain tensor, :math:`\mathbb{1}` is the 
-identity of second-rank tensors and :math:`\lambda=\dfrac{E\nu}{(1+\nu)(1-2\nu)},\mu=\dfrac{E}{2(1+\nu)}` are the 
+where :math:`\varepsilon = (\nabla u + (\nabla u)^T)/2` is the linearized strain tensor, :math:`\mathbb{1}` is the
+identity of second-rank tensors and :math:`\lambda=\dfrac{E\nu}{(1+\nu)(1-2\nu)},\mu=\dfrac{E}{2(1+\nu)}` are the
 Lame coefficients given as functions of the Young modulus :math:`E` and the Poisson ratio :math:`\nu`.
 
 The weak form is readily obtained by integrating by part the balance equation using a test function :math:`v\in V`
 with :math:`V` being a suitable function space that satisfies the displacement boundary conditions:
 
 .. math::
-   \int_{\Omega} \rho \ddot{u}\cdot v \, {\rm d} x + \int_{\Omega} \sigma(u):\varepsilon(v) \, {\rm d} x = 
+   \int_{\Omega} \rho \ddot{u}\cdot v \, {\rm d} x + \int_{\Omega} \sigma(u):\varepsilon(v) \, {\rm d} x =
    \int_{\Omega} \rho b \cdot v  \, {\rm d} x + \int_{\partial\Omega} (\sigma\cdot n) \cdot v \, {\rm d} s \quad \text{for all } v\in V
 
 The previous equation can be written as follows:
@@ -67,7 +71,7 @@ which is a generalized :math:`n`-dof harmonic oscillator equation.
 
 Quite often in structural dynamics, structures do not oscillate perfectly but lose energy through various dissipative mechanisms (friction with air or supports,
 internal dissipation through plasticity, damage, etc.). Dissipative terms can be introduced at the level of the constitutive equation if these mechanisms are well
-known but quite often it is not the case. Dissipation can then be modeled by adding an *ad hoc* damping term depending on the structure velocity :math:`\dot{u}` 
+known but quite often it is not the case. Dissipation can then be modeled by adding an *ad hoc* damping term depending on the structure velocity :math:`\dot{u}`
 to the previous evolution equation:
 
 .. math::
@@ -80,17 +84,17 @@ Rayleigh damping
 ~~~~~~~~~~~~~~~~~
 
 When little is known about the origin of damping in the structure, a popular choice for the damping matrix, known as *Rayleigh damping*, consists in using
-a linear combination of the mass and stiffness matrix :math:`[C] = \eta_M[M]+\eta_K[K]` with two positive parameters :math:`\eta_M,\eta_K` which 
+a linear combination of the mass and stiffness matrix :math:`[C] = \eta_M[M]+\eta_K[K]` with two positive parameters :math:`\eta_M,\eta_K` which
 can be fitted against experimental measures for instance (usually by measuring the damping ratio of two natural modes of vibration).
 
 ---------------------------------------------------------------
 Time discretization using the generalized-:math:`\alpha` method
 ---------------------------------------------------------------
 
-We now introduce a time discretization of the interval study :math:`[0;T]` in :math:`N+1` time increments :math:`t_0=0,t_1,\ldots,t_N,t_{N+1}=T` 
+We now introduce a time discretization of the interval study :math:`[0;T]` in :math:`N+1` time increments :math:`t_0=0,t_1,\ldots,t_N,t_{N+1}=T`
 with :math:`\Delta t=T/N` denoting the time step (supposed constant). The resolution will make use of the generalized-:math:`\alpha` method
-which can be seen as an extension of the widely used Newmark-:math:`\beta` method in structural dynamics. As an implicit method, it is unconditionally 
-stable for a proper choice of coefficients so that quite large time steps can be used. It also allows for high frequency dissipation and offers a 
+which can be seen as an extension of the widely used Newmark-:math:`\beta` method in structural dynamics. As an implicit method, it is unconditionally
+stable for a proper choice of coefficients so that quite large time steps can be used. It also allows for high frequency dissipation and offers a
 second-order accuracy, i.e. in :math:`O(\Delta t^2)`.
 
 The method consists in solving the dynamic evolution equation at intermediate time between :math:`t_n` and :math:`t_{n+1}` as follows:
@@ -99,7 +103,7 @@ The method consists in solving the dynamic evolution equation at intermediate ti
    [M]\{\ddot{u}_{n+1-\alpha_m}\} + [C]\{\dot{u}_{n+1-\alpha_f}\}+[K]\{u_{n+1-\alpha_f}\} = \{F(t_{n+1-\alpha_f})\}
 
 with the notation :math:`X_{n+1-\alpha} = (1-\alpha)X_{n+1}+\alpha X_{n}`. In addition, the following approximation for the displacement and velocity
-at :math:`t_{n+1}` are used: 
+at :math:`t_{n+1}` are used:
 
 .. math::
    \begin{align*}
@@ -130,7 +134,7 @@ where:
  * :math:`m_1 = \dfrac{(1-\alpha_m)}{\beta\Delta t^2}`
  * :math:`m_2 = \dfrac{(1-\alpha_m)}{\beta\Delta t}`
  * :math:`m_3 = 1-\dfrac{1-\alpha_m}{2\beta}`
- 
+
 Once the linear system has been solved for :math:`\{u_{n+1}\}`, the new velocity and acceleration are computed using the previous formulae.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -276,12 +280,12 @@ as the damping form obtained as a linear combination of the mass and stiffness f
  def Wext(u_):
      return dot(u_, p)*dss(3)
 
-Functions for implementing the time stepping scheme are also defined. ``update_a`` returns :math:`\{\ddot{u}_{n+1}\}` 
-as a function of the variables at the previous increment and of the new displacement :math:`\{u_{n+1}\}`. The function accepts a keyword ``ufl`` so that the expressions involved can be used with UFL representations if ``True`` or with array of values if ``False`` (we will make use of both possibilities later). 
+Functions for implementing the time stepping scheme are also defined. ``update_a`` returns :math:`\{\ddot{u}_{n+1}\}`
+as a function of the variables at the previous increment and of the new displacement :math:`\{u_{n+1}\}`. The function accepts a keyword ``ufl`` so that the expressions involved can be used with UFL representations if ``True`` or with array of values if ``False`` (we will make use of both possibilities later).
 In particular, the time step ``dt`` and time-stepping scheme parameters are either ``Constant`` or floats depending on the case.
-Function ``update_v`` does the same but for the new velocity :math:`\{\dot{u}_{n+1}\}` as a function of the previous variables 
-and of the new acceleration. Finally, function ``update_fields`` performs the final update at the end of the time step when the new 
-displacement :math:`\{u_{n+1}\}` has effectively been computed. In this context, the new acceleration and velocities are computed 
+Function ``update_v`` does the same but for the new velocity :math:`\{\dot{u}_{n+1}\}` as a function of the previous variables
+and of the new acceleration. Finally, function ``update_fields`` performs the final update at the end of the time step when the new
+displacement :math:`\{u_{n+1}\}` has effectively been computed. In this context, the new acceleration and velocities are computed
 using the vector representation of the different fields. The variables keeping track of the values at the previous increment are now assigned the new values computed for the current increment::
 
  # Update formula for acceleration
@@ -307,16 +311,16 @@ using the vector representation of the different fields. The variables keeping t
      return v_old + dt_*((1-gamma_)*a_old + gamma_*a)
 
  def update_fields(u, u_old, v_old, a_old):
-     """Update fields at the end of each time step.""" 
+     """Update fields at the end of each time step."""
 
      # Get vectors (references)
      u_vec, u0_vec  = u.vector(), u_old.vector()
-     v0_vec, a0_vec = v_old.vector(), a_old.vector() 
- 
+     v0_vec, a0_vec = v_old.vector(), a_old.vector()
+
      # use update functions using vector arguments
      a_vec = update_a(u_vec, u0_vec, v0_vec, a0_vec, ufl=False)
      v_vec = update_v(a_vec, u0_vec, v0_vec, a0_vec, ufl=False)
- 
+
      # Update (u_old <- u)
      v_old.vector()[:], a_old.vector()[:] = v_vec, a_vec
      u_old.vector()[:] = u.vector()
@@ -324,7 +328,7 @@ using the vector representation of the different fields. The variables keeping t
 The system variational form is now built by expressing the new acceleration :math:`\{\ddot{u}_{n+1}\}` as a function of
 the TrialFunction ``du`` using ``update_a``, which here works as a UFL expression. Using this new acceleration, the same is
 done for the new velocity using ``update_v``. Intermediate averages using parameters :math:`\alpha_m,\alpha_f` of the generalized- :math:`\alpha`
-method are obtained with a user-defined fuction ``avg``. The weak form evolution equation is then written using all these 
+method are obtained with a user-defined fuction ``avg``. The weak form evolution equation is then written using all these
 quantities. Since the problem is linear, we then extract the bilinear and linear parts using ``rhs`` and ``lhs``::
 
  def avg(x_old, x_new, alpha):
@@ -338,11 +342,11 @@ quantities. Since the problem is linear, we then extract the bilinear and linear
  a_form = lhs(res)
  L_form = rhs(res)
 
-Alternatively, the use of ``derivative`` can be made for non-linear problems for instance or one can also directly 
+Alternatively, the use of ``derivative`` can be made for non-linear problems for instance or one can also directly
 formulate the system to solve, involving the modified stiffness matrix :math:`[\bar{K}]` and the various coefficients introduced earlier.
 
 Since the system matrix to solve is the same for each time step (constant time step), it is not necessary to factorize the system at each increment.
-It can be done once and for all and only perform assembly of the varying right-hand side and backsubstitution to obtain the solution 
+It can be done once and for all and only perform assembly of the varying right-hand side and backsubstitution to obtain the solution
 much more efficiently. This is done by defining a ``LUSolver`` object and asking for reusing the matrix factorization::
 
  # Define solver for reusing factorization
@@ -352,7 +356,7 @@ much more efficiently. This is done by defining a ``LUSolver`` object and asking
  K, res = assemble_system(a_form, L_form, bc)
 
 We now initiate the time stepping loop. We will keep track of the beam vertical tip displacement over time as well as the different
-parts of the system total energy. We will also compute the stress field and save it, along with the displacement field, in a ``XDMFFile``.  
+parts of the system total energy. We will also compute the stress field and save it, along with the displacement field, in a ``XDMFFile``.
 The option `flush_ouput` enables to open the result file before the loop is finished, the ``function_share_mesh`` option tells that only one
 mesh is used for all functions of a given time step (displacement and stress) while the ``rewrite_function_mesh`` enforces that the same mesh
 is used for all time steps. These two options enables writing the mesh information only once instead of :math:`2N_{steps}` times::
@@ -390,7 +394,7 @@ performed: stresses are computed and written to the result file and the tip disp
          return
 
  for (i, dt) in enumerate(np.diff(time)):
- 
+
      t = time[i+1]
      print("Time: ", t)
 
@@ -424,7 +428,7 @@ performed: stresses are computed and written to the result file and the tip disp
      energies[i+1, :] = np.array([E_elas, E_kin, E_damp, E_tot])
 
 Note that in the above, the stresses are computed using a ``LocalSolver`` through the ``local_project`` function. Since the stress function space
-is a DG-0 space, the projection on this space can be performed element-wise in a very efficient manner. We therefore take advantage of the ``LocalSolver`` 
+is a DG-0 space, the projection on this space can be performed element-wise in a very efficient manner. We therefore take advantage of the ``LocalSolver``
 functionality which is precisely dedicated to such situations. Since this projection is performed at each time step, the savings in terms of computing
 time can be quite important.
 
