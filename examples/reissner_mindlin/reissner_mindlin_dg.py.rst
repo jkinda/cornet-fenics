@@ -1,3 +1,6 @@
+
+..    # gedit: set fileencoding=utf8 :
+
 .. raw:: html
 
  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><p align="center"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"/></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a></p>
@@ -36,7 +39,7 @@ Implementation
 Material properties and loading are the same as in :ref:`ReissnerMindlinQuads`::
 
  from __future__ import print_function
- from fenics import *
+ from dolfin import *
 
  E = Constant(1e3)
  nu = Constant(0.3)

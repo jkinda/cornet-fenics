@@ -48,8 +48,8 @@ How do I get started ?
 
 You can find instructions on how to install FEniCS on the FEniCS project website
 http://fenicsproject.org. In the following numerical tours, we will use the
-Python interface for the different FEniCS scripts. These demos have been written
-using FEniCS 2017.2.0 but many should work with older versions.
+Python interface for the different FEniCS scripts. These demos are compatible with
+FEniCS 2018.1.0 but many should work with older versions after minor changes.
 
 FEniCS is also distributed along with an important number of documented or
 undocumented examples, some of them will be revisited in these tours but do not

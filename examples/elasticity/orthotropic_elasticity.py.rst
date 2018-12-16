@@ -25,7 +25,7 @@ be applied on the correponding symmetry planes. To generate the perforated domai
 we use here the ``mshr`` module and define the boolean "*minus*" operation
 between a rectangle and a circle::
 
- from fenics import *
+ from dolfin import *
  from mshr import *
 
  L, R = 1., 0.1
@@ -143,6 +143,7 @@ and the problem is solved::
  p = plot(sigma(u)[1,1]/T[1], mode='color')
  plt.colorbar(p)
  plt.title(r"$\sigma_{yy}$",fontsize=26)
+ plt.show()
 
 The :math:`\sigma_{xx}` and :math:`\sigma_{yy}` components should look like
 that:

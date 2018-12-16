@@ -22,7 +22,7 @@ for demo, path in demos:
         py_files = [f for f in os.listdir(path) if os.path.splitext(f)[1] == ".py" ]
         for f in py_files:
             try:
-                ret = os.system("python "+os.path.join(path,f))
+                ret = os.system("python3 "+os.path.join(path,f))
                 if ret == 0:
                     print("Execution of %s went fine." % os.path.join(path,f)) 
                 else:

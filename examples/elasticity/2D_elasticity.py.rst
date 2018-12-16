@@ -30,7 +30,7 @@ and the rectangular domain is  generated using the ``RectangleMesh`` function.
 We also choose a criss-crossed structured mesh::
 
  from __future__ import print_function
- from fenics import *
+ from dolfin import *
 
  L = 25.
  H = 1.

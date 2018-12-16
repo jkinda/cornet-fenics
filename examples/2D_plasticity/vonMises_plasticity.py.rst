@@ -48,7 +48,7 @@ and the corresponding `issue <https://bitbucket.org/fenics-project/ffc/issues/14
 for more information.::
 
  from __future__ import print_function
- from fenics import *
+ from dolfin import *
  import numpy as np
  parameters["form_compiler"]["representation"] = 'quadrature'
  import warnings

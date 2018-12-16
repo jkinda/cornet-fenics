@@ -1,3 +1,6 @@
+
+..    # gedit: set fileencoding=utf8 :
+
 .. raw:: html
 
  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><p align="center"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"/></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a></p>
@@ -33,7 +36,7 @@ Implementation
 After importing the relevant modules, the geometry of a beam of length :math:`L=20`
 and rectangular section of size :math:`B\times H` with :math:`B=0.5, H=1` is first defined::
 
- from fenics import *
+ from dolfin import *
  import numpy as np
 
  L, B, H = 20., 0.5, 1.
@@ -126,7 +129,7 @@ correspond to the real and complex part of the eigenvalue, the last two to the
 real and complex part of the eigenvector)::
 
  N_eig = 6   # number of eigenvalues
- print "Computing %i first eigenvalues..." % N_eig
+ print("Computing %i first eigenvalues..." % N_eig)
  eigensolver.solve(N_eig)
 
  # Exact solution computation

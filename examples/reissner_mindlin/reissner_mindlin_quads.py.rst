@@ -1,3 +1,6 @@
+
+..    # gedit: set fileencoding=utf8 :
+
 .. raw:: html
 
  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><p align="center"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"/></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a></p>
@@ -41,7 +44,7 @@ Implementation
 Material parameters for isotropic linear elastic behavior are first defined::
 
  from __future__ import print_function
- from fenics import *
+ from dolfin import *
 
  E = Constant(1e3)
  nu = Constant(0.3)
@@ -62,7 +65,7 @@ constant value in the thin plate Love-Kirchhoff limit::
 The unit square mesh is divided in :math:`N\times N` quadrilaterals::
 
  N = 50
- mesh = UnitSquareMesh.create(N, N, CellType.Type_quadrilateral)
+ mesh = UnitSquareMesh.create(N, N, CellType.Type.quadrilateral)
 
 Continuous interpolation using of degree :math:`d=\texttt{deg}` is chosen for both deflection and rotation::
 

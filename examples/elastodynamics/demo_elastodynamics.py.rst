@@ -350,10 +350,9 @@ It can be done once and for all and only perform assembly of the varying right-h
 much more efficiently. This is done by defining a ``LUSolver`` object and asking for reusing the matrix factorization::
 
  # Define solver for reusing factorization
- solver = LUSolver("mumps")
- solver.parameters["symmetric"] = True
- solver.parameters["reuse_factorization"] = True
  K, res = assemble_system(a_form, L_form, bc)
+ solver = LUSolver(K, "mumps")
+ solver.parameters["symmetric"] = True
 
 We now initiate the time stepping loop. We will keep track of the beam vertical tip displacement over time as well as the different
 parts of the system total energy. We will also compute the stress field and save it, along with the displacement field, in a ``XDMFFile``.
