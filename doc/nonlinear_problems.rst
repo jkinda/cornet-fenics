@@ -11,7 +11,8 @@ Contents:
    :maxdepth: 1
 
    demo/viscoelasticity/linear_viscoelasticity.ipynb
-   demo/2D_plasticity/vonMises_plasticity.py.rst
    demo/contact/penalty.ipynb
+   demo/2D_plasticity/vonMises_plasticity.py.rst
+   demo/plasticity_mfront/plasticity_mfront.py.rst
 
 

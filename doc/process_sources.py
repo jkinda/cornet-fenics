@@ -22,8 +22,8 @@ import shutil
 import zipfile
 
 # extensions of files which must be copied with the demo when building docs
-file_extensions = [".png",".gif", ".geo", ".xml", ".msh", ".pdf"]
-zipfile_extensions = [".geo", ".msh", ".xml", ".py", ".ipynb"]
+file_extensions = [".png",".gif", ".geo", ".xml", ".msh", ".pdf", ".mfront"]
+zipfile_extensions = [".geo", ".msh", ".xml", ".py", ".ipynb", ".mfront"]
 
 def process():
     """Copy demo rst files (C++ and Python) from the DOLFIN source tree

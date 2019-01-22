@@ -1,9 +1,9 @@
 
-.. _vonMisesPlasticity:
-
 .. raw:: html
 
  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><p align="center"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"/></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a></p>
+
+.. _vonMisesPlasticity:
 
 ==================================================
 Elasto-plastic analysis of a 2D von Mises material
@@ -20,7 +20,8 @@ loop for restoring equilibrium. Due to the simple expression of the von Mises cr
 the return mapping procedure is completely analytical (with linear isotropic
 hardening). The corresponding sources can be obtained from :download:`vonMises_plasticity.zip`.
 Another implementation of von Mises plasticity can also be found at
-https://bitbucket.org/fenics-apps/fenics-solid-mechanics.
+https://bitbucket.org/fenics-apps/fenics-solid-mechanics as well as in
+the numerical tour :ref:`PlasticityMFront`.
 
 We point out that the 2D nature of the problem will impose keeping
 track of the out-of-plane :math:`\varepsilon_{zz}^p` plastic strain and dealing with
