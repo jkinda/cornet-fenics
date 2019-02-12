@@ -106,15 +106,13 @@ can be solved using the ``SLEPcEigenSolver``. ::
 
  eigensolver = SLEPcEigenSolver(K, M)
  eigensolver.parameters['problem_type'] = 'gen_hermitian'
- eigensolver.parameters["spectrum"] = "smallest real"
  eigensolver.parameters['spectral_transform'] = 'shift-and-invert'
  eigensolver.parameters['spectral_shift'] = 0.
 
 The problem type is specified to be a generalized eigenvalue problem with
-Hermitian matrices. By default, SLEPc computes the largest eigenvalues, here
-we instead look for the smallest eigenvalues (they should all be real). To
-improve convergence of the eigensolver for finding the smallest eigenvalues
-(by default it computes the largest ones), a spectral transform is performed
+Hermitian matrices. By default, SLEPc computes the largest eigenvalues. Here
+we instead look for the smallest eigenvalues (they should all be real). A 
+spectral transform is therefore performed
 using the keyword ``shift-invert`` i.e. the original problem is transformed into
 an equivalent problem with eigenvalues given by :math:`\dfrac{1}{\lambda - \sigma}`
 instead of :math:`\lambda` where :math:`\sigma` is the value of the spectral shift.
