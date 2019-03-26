@@ -130,7 +130,7 @@ on the top boundary::
  T = Constant((0, 1e-3))
  l = dot(T, u_)*ds(1)
 
-Symmetric boundary conditions are applied on the ``Top`` and ``Left`` boundaries
+Symmetric boundary conditions are applied on the ``Bottom`` and ``Left`` boundaries
 and the problem is solved::
 
  # symmetry boundary conditions
