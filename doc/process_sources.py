@@ -24,6 +24,8 @@ import zipfile
 # extensions of files which must be copied with the demo when building docs
 file_extensions = [".png",".gif", ".geo", ".xml", ".msh", ".pdf", ".mfront", ".sh"]
 zipfile_extensions = [".geo", ".msh", ".xml", ".py", ".ipynb", ".mfront", ".sh"]
+# files which must be added to zip folder
+source_files_to_zip = ["shell.xdmf", "shell.h5"]
 
 def process():
     """Copy demo rst files (C++ and Python) from the DOLFIN source tree
@@ -99,7 +101,7 @@ def process():
                     files = os.listdir(".")
                     zip_files = []
                     for ff in files:
-                        if any([ff.endswith(ext) for ext in zipfile_extensions]):
+                        if any([ff.endswith(ext) for ext in zipfile_extensions]) or ff in source_files_to_zip:
                             zip_files.append(ff)
                     with zipfile.ZipFile(f.split(".")[0]+".zip", 'w') as myzip:
                         for a in zip_files:

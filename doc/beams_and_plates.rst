@@ -11,9 +11,10 @@ Contents:
 .. toctree::
    :maxdepth: 1
 
-   demo/timoshenko/beam_buckling.ipynb
+   demo/beam_buckling/beam_buckling.ipynb
    demo/reissner_mindlin/reissner_mindlin_quads.py.rst
    demo/reissner_mindlin/reissner_mindlin_dg.py.rst
+   demo/beams_3D/beams_3D.ipynb
 
 
 
