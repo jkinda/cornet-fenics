@@ -422,3 +422,4 @@ Several points need to be mentioned regarding this implementation efficiency:
 .. [#] Note that an instance of MaterialDataManager keeps a reference to the behaviour 
 which has been used for its initialization: the user must ensure that this behaviour 
 outlives the instance of the MaterialDataManager, otherwise memory corruption may occur.
+

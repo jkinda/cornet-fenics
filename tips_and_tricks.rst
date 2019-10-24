@@ -1,3 +1,8 @@
+
+..    # gedit: set fileencoding=utf8 :
+
+.. _TipsAndTricks:
+
 Efficient assignement of vector-valued functions
 ------------------------------------------------
 

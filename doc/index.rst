@@ -16,6 +16,7 @@ Contents:
    homogenization
    nonlinear_problems
    beams_and_plates
+   topology_optimization
    tips_and_tricks
 
 
