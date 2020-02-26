@@ -90,6 +90,7 @@ def process():
 
 
                 tocopy_files = [f for f in os.listdir(version_path) if (os.path.splitext(f)[1] in file_extensions) or f in source_files_to_zip]
+                tocopy_files += [f for f in os.listdir(version_path)]
                 for f in tocopy_files:
                     source = os.path.join(version_path, f)
                     print("Copying {} to {}".format(source, demo_dir))
