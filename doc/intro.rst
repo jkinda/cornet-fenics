@@ -32,7 +32,7 @@ Zenodo DOI https://doi.org/10.5281/zenodo.1287832
 .. code-block:: none
 
 	@article{bleyer2018numericaltours,
-	title={Numerical Tours of Computational Mechanics with FEniCS},
+	title={Numerical Tours of Computational Mechanics with {FE}ni{CS}},
 	DOI={10.5281/zenodo.1287832},
 	publisher={Zenodo},
 	author={Jeremy Bleyer},
