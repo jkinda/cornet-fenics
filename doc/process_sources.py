@@ -90,10 +90,9 @@ def process():
 
 
                 tocopy_files = [f for f in os.listdir(version_path) if (os.path.splitext(f)[1] in file_extensions) or f in source_files_to_zip]
-                print(tocopy_files)
+                print("Files to copy:", tocopy_files)
                 for f in tocopy_files:
                     source = os.path.join(version_path, f)
-                    print("Copying {} to {}".format(source, demo_dir))
                     shutil.copy(source, demo_dir)
 
                 for f in ipynb_files + rst_files:
@@ -104,6 +103,7 @@ def process():
                     for ff in files:
                         if any([ff.endswith(ext) for ext in zipfile_extensions]) or ff in source_files_to_zip:
                             zip_files.append(ff)
+                    print("Zip files:", zip_files)
                     with zipfile.ZipFile(f.split(".")[0]+".zip", 'w') as myzip:
                         for a in zip_files:
                             myzip.write(a, compress_type=zipfile.ZIP_DEFLATED)
