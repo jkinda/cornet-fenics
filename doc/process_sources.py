@@ -22,7 +22,7 @@ import shutil
 import zipfile
 
 # extensions of files which must be copied with the demo when building docs
-file_extensions = [".png",".gif", ".geo", ".xml", ".msh", ".pdf", ".mfront", ".sh"]
+file_extensions = [".png",".gif", ".geo", ".xml", ".msh", ".pdf", ".mfront", ".sh", ".py"]
 zipfile_extensions = [".geo", ".msh", ".xml", ".py", ".ipynb", ".mfront", ".sh"]
 # files which must be added to zip folder
 source_files_to_zip = ["shell.xdmf", "shell.h5"]

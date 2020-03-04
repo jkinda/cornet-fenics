@@ -2,6 +2,13 @@
 Tips and Tricks
 ================
 
+Contents:
+
+.. toctree::
+   :maxdepth: 1
+
+   demo/tips_and_tricks/mass_lumping.ipynb
+
 In construction...
 
 .. _TipsTricksProjection:
