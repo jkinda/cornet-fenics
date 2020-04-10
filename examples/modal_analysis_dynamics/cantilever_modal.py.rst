@@ -158,7 +158,7 @@ real and complex part of the eigenvector)::
 
      print("Solid FE: {0:8.5f} [Hz]   Beam theory: {1:8.5f} [Hz]".format(freq_3D, freq_beam))
 
-     # Initialize function and assign eigenvector (renormalize by stiffness matrix)
+     # Initialize function and assign eigenvector
      eigenmode = Function(V,name="Eigenvector "+str(i))
      eigenmode.vector()[:] = rx
 
