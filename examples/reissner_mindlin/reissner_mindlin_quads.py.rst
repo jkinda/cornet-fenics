@@ -125,10 +125,10 @@ We then solve for the solution and export the relevant fields to XDMF files ::
 
  Vw = FunctionSpace(mesh, We)
  Vt = FunctionSpace(mesh, Te)
- ww = Function(Vw, name="Deflection")
- tt = Function(Vt, name="Rotation")
- ww.assign(project(w, Vw))
- tt.assign(project(theta, Vt))
+ ww = u.sub(0, True)
+ ww.rename("Deflection", "")
+ tt = u.sub(1, True)
+ tt.rename("Rotation", "")
 
  file_results = XDMFFile("RM_results.xdmf")
  file_results.parameters["flush_output"] = True
