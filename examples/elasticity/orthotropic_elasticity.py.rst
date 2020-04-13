@@ -84,9 +84,10 @@ second-order tensor or using the Voigt engineering notation::
      s is a stress-like vector (no 2 factor on last component)
      returns its tensorial representation
      """
-     return as_tensor([[s[0],s[2]],[s[2],s[1]]])
+     return as_tensor([[s[0], s[2]],
+                      [s[2], s[1]]])
  def sigma(v):
-     return voigt2stress(dot(C,strain2voigt(eps(v))))
+     return voigt2stress(dot(C, strain2voigt(eps(v))))
 
 
 Problem position and resolution
@@ -97,13 +98,13 @@ exterior integration measure ``ds``::
 
  class Top(SubDomain):
      def inside(self, x, on_boundary):
-         return near(x[1],L) and on_boundary
+         return near(x[1], L) and on_boundary
  class Left(SubDomain):
      def inside(self, x, on_boundary):
-         return near(x[0],0) and on_boundary
+         return near(x[0], 0) and on_boundary
  class Bottom(SubDomain):
      def inside(self, x, on_boundary):
-         return near(x[1],0) and on_boundary
+         return near(x[1], 0) and on_boundary
 
  # exterior facets MeshFunction
  facets = MeshFunction("size_t", mesh, 1)
@@ -111,7 +112,7 @@ exterior integration measure ``ds``::
  Top().mark(facets, 1)
  Left().mark(facets, 2)
  Bottom().mark(facets, 3)
- ds = Measure('ds')[facets]
+ ds = Measure('ds', subdomain_data=facets)
 
 We are now in position to define the variational form which is given as in :ref:`LinearElasticity2D`,
 the linear form now contains a Neumann term corresponding to a uniform vertical traction :math:`\sigma_{\infty}`
@@ -140,7 +141,7 @@ and the problem is solved::
  solve(a == l, u, bc)
 
  import matplotlib.pyplot as plt
- p = plot(sigma(u)[1,1]/T[1], mode='color')
+ p = plot(sigma(u)[1, 1]/T[1], mode='color')
  plt.colorbar(p)
  plt.title(r"$\sigma_{yy}$",fontsize=26)
  plt.show()

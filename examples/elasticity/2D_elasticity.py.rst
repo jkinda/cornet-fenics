@@ -29,7 +29,6 @@ We consider here the case of a cantilever beam modeled as a 2D medium of dimensi
 and the rectangular domain is  generated using the ``RectangleMesh`` function.
 We also choose a criss-crossed structured mesh::
 
- from __future__ import print_function
  from dolfin import *
 
  L = 25.
@@ -126,7 +125,7 @@ from the virtual work principle) is given by:
 which translates into the following FEniCS code::
 
  rho_g = 1e-3
- f = Constant((0,-rho_g))
+ f = Constant((0, -rho_g))
 
  V = VectorFunctionSpace(mesh, 'Lagrange', degree=2)
  du = TrialFunction(V)
@@ -142,7 +141,7 @@ Fixed displacements are imposed on the left part of the beam, the ``solve``
 function is then called and solution is plotted by deforming the mesh::
 
  def left(x, on_boundary):
-     return near(x[0],0.)
+     return near(x[0], 0.)
 
  bc = DirichletBC(V, Constant((0.,0.)), left)
 
