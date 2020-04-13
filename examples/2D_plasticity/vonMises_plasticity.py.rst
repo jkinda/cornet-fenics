@@ -48,7 +48,6 @@ See `this post <https://www.allanswered.com/post/lknbq/assemble-quadrature-repre
 and the corresponding `issue <https://bitbucket.org/fenics-project/ffc/issues/146/uflacs-generates-undefined-variable-for>`_
 for more information.::
 
- from __future__ import print_function
  from dolfin import *
  import numpy as np
  parameters["form_compiler"]["representation"] = 'quadrature'
