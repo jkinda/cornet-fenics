@@ -43,7 +43,6 @@ Implementation
 
 Material parameters for isotropic linear elastic behavior are first defined::
 
- from __future__ import print_function
  from dolfin import *
 
  E = Constant(1e3)

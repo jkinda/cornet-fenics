@@ -52,8 +52,8 @@ Material parameters and elastic constitutive relations are classical (here we
 take :math:`\nu=0`) and we also introduce the material density :math:`\rho` for
 later definition of the mass matrix::
 
- E, nu = 1e5, 0.
- rho = 1e-3
+ E, nu = Constant(1e5), Constant(0.)
+ rho = Constant(1e-3)
 
  # Lame coefficient for constitutive relation
  mu = E/2./(1+nu)
@@ -127,7 +127,7 @@ correspond to the real and complex part of the eigenvalue, the last two to the
 real and complex part of the eigenvector)::
 
  N_eig = 6   # number of eigenvalues
- print("Computing %i first eigenvalues..." % N_eig)
+ print("Computing {} first eigenvalues...".format(N_eig))
  eigensolver.solve(N_eig)
 
  # Exact solution computation
