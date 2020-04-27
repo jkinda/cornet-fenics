@@ -22,12 +22,23 @@ illustrating the versatility of FEniCS.
 The full set of demos can be obtained from the *COmputational MEchanics Toolbox* (COMET) available at
 https://gitlab.enpc.fr/jeremy.bleyer/comet-fenics.
 
+A new set of demos illustrating how to couple FEniCS with the `MFront` code generator have been added.
+They are based on the :code:`mgis.fenics` module of the `MFrontGenericInterfaceSupport (MGIS) project <https://thelfer.github.io/mgis/web/index.html>`_. 
+A general introduction of the package is `available here <https://thelfer.github.io/mgis/web/mgis_fenics.html>`_ and the demos source
+files can be found `here <https://gitlab.enpc.fr/navier-fenics/mgis-fenics-demos>`_.
+This project has been realized in collaboration with Thomas Helfer (CEA, thomas.helfer@cea.fr).
+
 --------------------
 Citing and license
 --------------------
 
 If you find these demos useful for your research work, please consider citing them using the following
-Zenodo DOI https://doi.org/10.5281/zenodo.1287832
+Zenodo DOI :
+
+|DOI|
+
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.1287832.svg
+   :target: https://doi.org/10.5281/zenodo.1287832
 
 .. code-block:: none
 
@@ -41,6 +52,31 @@ Zenodo DOI https://doi.org/10.5281/zenodo.1287832
 All this work is licensed under the `Creative Commons Attribution-ShareAlike 4.0 International License <http://creativecommons.org/licenses/by-sa/4.0/>`_ |license|.
 
 .. |license| image:: https://i.creativecommons.org/l/by-sa/4.0/88x31.png
+
+The MGIS project can be cited through the following paper 
+
+|DOI|
+
+.. |DOI| image:: https://joss.theoj.org/papers/10.21105/joss.02003/status.svg
+   :target: https://doi.org/10.21105/joss.02003
+
+
+.. code-block:: none
+
+ @article{Helfer2020,
+  doi = {10.21105/joss.02003},
+  url = {https://doi.org/10.21105/joss.02003},
+  year = {2020},
+  publisher = {The Open Journal},
+  volume = {5},
+  number = {48},
+  pages = {2003},
+  author = {Thomas Helfer and Jeremy Bleyer and Tero Frondelius and 
+            Ivan Yashchuk and Thomas Nagel and Dmitri Naumov},
+  title = {The `MFrontGenericInterfaceSupport` project},
+  journal = {Journal of Open Source Software}
+ }
+
 
 -----------------------
 How do I get started ?

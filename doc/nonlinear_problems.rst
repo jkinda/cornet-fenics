@@ -8,11 +8,10 @@ Nonlinear problems in solid mechanics
 Contents:
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
    demo/viscoelasticity/linear_viscoelasticity.ipynb
    demo/contact/penalty.ipynb
    demo/2D_plasticity/vonMises_plasticity.py.rst
    demo/plasticity_mfront/plasticity_mfront.py.rst
-
 
