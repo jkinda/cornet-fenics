@@ -16,9 +16,10 @@ Contents:
 
    Stationnary non-linear heat transfer <https://thelfer.github.io/mgis/web/mgis_fenics_nonlinear_heat_transfer.html>
    Stationnary non-linear heat transfer: 3D problem and performance comparisons <https://thelfer.github.io/mgis/web/mgis_fenics_nonlinear_heat_transfer_3D.html>
+   Transient heat equation with phase change <https://thelfer.github.io/mgis/web/mgis_fenics_heat_equation_phase_change.html>
+   Monolithic transient thermo-elasticity <https://thelfer.github.io/mgis/web/mgis_fenics_monolithic_transient_thermoelasticity.html>
    Small-strain von Mises elastoplasticity <https://thelfer.github.io/mgis/web/mgis_fenics_small_strain_elastoplasticity.html>
    Finite-strain elastoplasticity within the logarithmic strain framework <https://thelfer.github.io/mgis/web/mgis_fenics_finite_strain_elastoplasticity.html>
    Multiphase model for fiber-reinforced materials <https://thelfer.github.io/mgis/web/mgis_fenics_multiphase_model.html>
    Phase-field approach to brittle fracture <https://thelfer.github.io/mgis/web/mgis_fenics_phase_field.html>
-   Transient heat equation with phase change <https://thelfer.github.io/mgis/web/mgis_fenics_heat_equation_phase_change.html>
 
