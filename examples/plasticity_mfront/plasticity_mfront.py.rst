@@ -345,7 +345,7 @@ behaviour and the previous displacement variable are updated::
          # copy the strain values to `MGIS`
          m.s1.gradients[:, :] = Eps1.vector().get_local().reshape((m.n, stress_strain_dim))
          # integrate the behaviour
-         it = mgis_bv.IntegrationType.IntegrationWithConsitentTangentOperator
+         it = mgis_bv.IntegrationType.IntegrationWithConsistentTangentOperator
          mgis_bv.integrate(m, it, 0, 0, m.n);
          # getting the stress and consistent tangent operator back to
          # the FEniCS world.
