@@ -61,7 +61,7 @@ of the strain components :math:`\boldsymbol{\sigma}=\mathbf{C}\boldsymbol{\varep
 :math:`\mathbf{C}=\mathbf{S}^{-1}`::
 
  Ex, Ey, nuxy, Gxy = 100., 10., 0.3, 5.
- S = as_matrix([[1./Ex,nuxy/Ex,0.],[nuxy/Ex,1./Ey,0.],[0.,0.,1./Gxy]])
+ S = as_matrix([[1./Ex,-nuxy/Ex,0.],[-nuxy/Ex,1./Ey,0.],[0.,0.,1./Gxy]])
  C = inv(S)
 
 .. note::
