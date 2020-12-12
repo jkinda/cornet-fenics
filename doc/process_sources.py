@@ -22,8 +22,8 @@ import shutil
 import zipfile
 
 # extensions of files which must be copied with the demo when building docs
-file_extensions = [".png",".gif", ".geo", ".xml", ".msh", ".pdf", ".mfront", ".sh", ".py"]
-zipfile_extensions = [".geo", ".msh", ".xml", ".py", ".ipynb", ".mfront", ".sh"]
+file_extensions = [".png",".gif", ".geo", ".xml", ".msh", ".pdf", ".mfront", ".sh", ".py", ".csv"]
+zipfile_extensions = [".geo", ".msh", ".xml", ".py", ".ipynb", ".mfront", ".sh", ".csv"]
 # files which must be added to zip folder
 source_files_to_zip = ["shell.xdmf", "shell.h5"]
 
@@ -46,10 +46,12 @@ def process():
 
         # Get list of demos (demo name , subdirectory)
         demos = [(dI, os.path.join(subdir, dI)) for dI in os.listdir(subdir) if os.path.isdir(os.path.join(subdir, dI))]
-
+        # print([root for root, dirs, files in os.walk(subdir)])
         # Iterate over demos
         for demo, path in demos:
-
+            print("-"*40)
+            print(demo, path)
+            print("-"*40)
             # Process C++ and Python versions
             for version in ("."):
 

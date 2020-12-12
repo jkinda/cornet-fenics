@@ -16,7 +16,8 @@ Contents:
    homogenization
    nonlinear_problems
    mgis_fenics
-   beams_and_plates
+   beams
+   plates
    topology_optimization
    tips_and_tricks
 
