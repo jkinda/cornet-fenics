@@ -37,14 +37,15 @@ Zenodo DOI :
 
 |DOI|
 
-.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.1287832.svg
+.. |DOI| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.1287832.svg
    :target: https://doi.org/10.5281/zenodo.1287832
 
 .. code-block:: none
 
-	@article{bleyer2018numericaltours,
+	@manual{bleyer2018numericaltours,
 	title={Numerical Tours of Computational Mechanics with {FE}ni{CS}},
 	DOI={10.5281/zenodo.1287832},
+        howpublished = {https://comet-fenics.readthedocs.io},
 	publisher={Zenodo},
 	author={Jeremy Bleyer},
 	year={2018}}
@@ -55,9 +56,9 @@ All this work is licensed under the `Creative Commons Attribution-ShareAlike 4.0
 
 The MGIS project can be cited through the following paper 
 
-|DOI|
+|DOI_MGIS|
 
-.. |DOI| image:: https://joss.theoj.org/papers/10.21105/joss.02003/status.svg
+.. |DOI_MGIS| image:: https://joss.theoj.org/papers/10.21105/joss.02003/status.svg
    :target: https://doi.org/10.21105/joss.02003
 
 
