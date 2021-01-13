@@ -41,6 +41,7 @@ def create_quadrature_monkey_patched(ref_el, degree, scheme="default"):
                        [0.0, 0.5, 0.5],
                        [0.0, 0.0, 1.0]])
             w = array([1/60.,]*10)
+            return QuadratureRule(ref_el, x, w)
         raise NotImplementedError("Scheme {} of degree {} on {} not implemented"
             .format(scheme, degree, ref_el))
 
