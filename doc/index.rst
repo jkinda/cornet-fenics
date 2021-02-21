@@ -20,6 +20,7 @@ Contents:
    plates
    topology_optimization
    tips_and_tricks
+   useful_packages.md
 
 
 
