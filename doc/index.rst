@@ -14,6 +14,7 @@ Contents:
    intro
    linear_problems
    homogenization
+   eigenvalue_problems
    nonlinear_problems
    mgis_fenics
    beams
