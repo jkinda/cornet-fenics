@@ -123,11 +123,11 @@ After plugging into the evolution and rearranging the known and unknown terms, o
 .. math::
    \begin{align*}
    [\bar{K}]\{u_{n+1}\} &= \{F(t_{n+1-\alpha_f})\} - \alpha_f[K]\{u_n\} \\
-	&- [C](c_1\{u_n\}+c_2\{\dot{u}_n\}+c_3\{\ddot{u}_n\})-[M](m_1\{u_n\}+m_2\{\dot{u}_n\}+m_3\{\ddot{u}_n\})
+	&+ [C](c_1\{u_n\}+c_2\{\dot{u}_n\}-c_3\{\ddot{u}_n\})+[M](m_1\{u_n\}+m_2\{\dot{u}_n\}-m_3\{\ddot{u}_n\})
  \end{align*}
 
 where:
- * :math:`[\bar{K}] = [K]+c_1[C]+m_1[M]`
+ * :math:`[\bar{K}] = (1-\alpha_f)[K]+c_1[C]+m_1[M]`
  * :math:`c_1 = \dfrac{\gamma(1-\alpha_f)}{\beta\Delta t}`
  * :math:`c_2 = 1-\gamma(1-\alpha_f)/\beta`
  * :math:`c_3 = \Delta t(1-\alpha_f)(1-\dfrac{\gamma}{2\beta})`
