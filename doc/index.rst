@@ -19,7 +19,9 @@ Contents:
    mgis_fenics
    beams
    plates
+   shells
    topology_optimization
+   nitsche
    tips_and_tricks
    useful_packages.md
 

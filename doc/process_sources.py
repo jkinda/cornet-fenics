@@ -22,10 +22,23 @@ import shutil
 import zipfile
 
 # extensions of files which must be copied with the demo when building docs
-file_extensions = [".png",".gif", ".geo", ".xml", ".msh", ".pdf", ".mfront", ".sh", ".py", ".csv"]
+file_extensions = [
+    ".png",
+    ".gif",
+    ".geo",
+    ".xml",
+    ".msh",
+    ".pdf",
+    ".mfront",
+    ".sh",
+    ".py",
+    ".csv",
+    ".svg",
+]
 zipfile_extensions = [".geo", ".msh", ".xml", ".py", ".ipynb", ".mfront", ".sh", ".csv"]
 # files which must be added to zip folder
 source_files_to_zip = ["shell.xdmf", "shell.h5"]
+
 
 def process():
     """Copy demo rst files (C++ and Python) from the DOLFIN source tree
@@ -45,15 +58,19 @@ def process():
     for subdir in subdirs:
 
         # Get list of demos (demo name , subdirectory)
-        demos = [(dI, os.path.join(subdir, dI)) for dI in os.listdir(subdir) if os.path.isdir(os.path.join(subdir, dI))]
+        demos = [
+            (dI, os.path.join(subdir, dI))
+            for dI in os.listdir(subdir)
+            if os.path.isdir(os.path.join(subdir, dI))
+        ]
         # print([root for root, dirs, files in os.walk(subdir)])
         # Iterate over demos
         for demo, path in demos:
-            print("-"*40)
+            print("-" * 40)
             print(demo, path)
-            print("-"*40)
+            print("-" * 40)
             # Process C++ and Python versions
-            for version in ("."):
+            for version in ".":
 
                 # Get path to demo source directory (cpp/python) and
                 # check that it exists
@@ -62,20 +79,30 @@ def process():
                     continue
 
                 # Create directory in documentation tree for demo
-                demo_dir = os.path.join('./demo/', demo)
+                demo_dir = os.path.join("./demo/", demo)
                 if not os.path.exists(demo_dir):
                     os.makedirs(demo_dir)
 
-                ipynb_files =  [f for f in os.listdir(version_path) if f.endswith("ipynb") ]
+                ipynb_files = [
+                    f for f in os.listdir(version_path) if f.endswith("ipynb")
+                ]
                 for f in ipynb_files:
                     ff = os.path.join(path, f)
                     shutil.copy(ff, demo_dir)
-                    ret = os.system("jupyter-nbconvert --to script %s --output %s" % (ff,  os.path.join("../../doc",demo_dir, os.path.splitext(f)[0])))
+                    ret = os.system(
+                        "jupyter-nbconvert --to script %s --output %s"
+                        % (
+                            ff,
+                            os.path.join("../../doc", demo_dir, os.path.splitext(f)[0]),
+                        )
+                    )
                     if not ret == 0:
-                        raise RuntimeError("Unable to convert ipynb file to a .py ({})".format(f))
+                        raise RuntimeError(
+                            "Unable to convert ipynb file to a .py ({})".format(f)
+                        )
 
                 # Build list of rst files in demo source directory
-                rst_files = [f for f in os.listdir(version_path) if f.endswith("rst") ]
+                rst_files = [f for f in os.listdir(version_path) if f.endswith("rst")]
 
                 # Copy rst files into documentation demo directory and process with Pylit
                 for f in rst_files:
@@ -85,13 +112,18 @@ def process():
                     if "py" in f.split("."):
                         rst_file = os.path.join(demo_dir, f)
                         command = pylit_parser + " " + rst_file
-                        ret = os.system("python "+command)
+                        ret = os.system("python " + command)
                         if not ret == 0:
-                            raise RuntimeError("Unable to convert rst file to a .py ({})".format(f))
+                            raise RuntimeError(
+                                "Unable to convert rst file to a .py ({})".format(f)
+                            )
 
-
-
-                tocopy_files = [f for f in os.listdir(version_path) if (os.path.splitext(f)[1] in file_extensions) or f in source_files_to_zip]
+                tocopy_files = [
+                    f
+                    for f in os.listdir(version_path)
+                    if (os.path.splitext(f)[1] in file_extensions)
+                    or f in source_files_to_zip
+                ]
                 print("Files to copy:", tocopy_files)
                 for f in tocopy_files:
                     source = os.path.join(version_path, f)
@@ -103,10 +135,13 @@ def process():
                     files = os.listdir(".")
                     zip_files = []
                     for ff in files:
-                        if any([ff.endswith(ext) for ext in zipfile_extensions]) or ff in source_files_to_zip:
+                        if (
+                            any([ff.endswith(ext) for ext in zipfile_extensions])
+                            or ff in source_files_to_zip
+                        ):
                             zip_files.append(ff)
                     print("Zip files:", zip_files)
-                    with zipfile.ZipFile(f.split(".")[0]+".zip", 'w') as myzip:
+                    with zipfile.ZipFile(f.split(".")[0] + ".zip", "w") as myzip:
                         for a in zip_files:
                             myzip.write(a, compress_type=zipfile.ZIP_DEFLATED)
                     os.chdir(cwd)

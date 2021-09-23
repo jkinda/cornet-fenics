@@ -13,6 +13,7 @@ Contents:
 
    demo/modal_analysis_dynamics/cantilever_modal.py.rst
    demo/buckling_3D/buckling_3d_solid.ipynb
+   demo/modal_analysis_rotating_structure/modal_analysis_rotating_structure.ipynb
 
 
 
