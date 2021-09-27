@@ -16,7 +16,7 @@ Contents:
    demo/elasticity/axisymmetric_elasticity.ipynb
    demo/thermoelasticity/thermoelasticity.ipynb
    demo/thermoelasticity/thermoelasticity_transient.ipynb
-   demo/modal_analysis_dynamics/cantilever_modal.py.rst
+   demo/modal_analysis_dynamics/cantilever_modal.ipynb
    demo/elastodynamics/demo_elastodynamics.py.rst
 
 
