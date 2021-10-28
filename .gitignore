@@ -1,0 +1,11 @@
+*.ipynb_checkpoints
+*.pyc
+
+demo
+private_examples
+doc/_build
+
+include
+jitfailure*
+__pycache__
+
