@@ -14,4 +14,5 @@ Contents:
    demo/contact/penalty.ipynb
    demo/2D_plasticity/vonMises_plasticity.py.rst
    demo/plasticity_mfront/plasticity_mfront.py.rst
+   demo/cohesive_zone_model/cohesive_zone_model.ipynb
 
