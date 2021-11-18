@@ -18,6 +18,6 @@ Contents:
    demo/thermoelasticity/thermoelasticity_transient.ipynb
    demo/modal_analysis_dynamics/cantilever_modal.ipynb
    demo/elastodynamics/demo_elastodynamics.py.rst
-
+   demo/cross_section_analysis/cross_section_analysis.ipynb
 
 
