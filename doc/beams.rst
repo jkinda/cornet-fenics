@@ -13,6 +13,6 @@ Contents:
 
    demo/beam_buckling/beam_buckling.ipynb
    demo/beams_3D/beams_3D.ipynb
-
+   demo/finite_rotation_beam/finite_rotation_nonlinear_beam
 
 
