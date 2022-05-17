@@ -340,8 +340,8 @@ the total displacement, stress and plastic strain states are updated ::
          print("    Residual:", nRes)
          niter += 1
      u.assign(u+Du)
-     sig_old.assign(sig)
      p.assign(p+local_project(dp_, W0))
+     sig_old.assign(sig)
 
 ----------------
 Post-processing
